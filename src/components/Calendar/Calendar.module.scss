@@ -1,0 +1,20 @@
+.calendar {
+  visibility: hidden;
+  height: 0;
+  padding: 0;
+  width: 0;
+  position: absolute;
+
+  &.ant-picker-range-arrow {
+    display: none;
+  }
+  &.ant-picker-panel-container .ant-picker-panels {
+    display: inline-flex;
+    flex-wrap: nowrap;
+    direction: ltr;
+    padding: 40px !important;
+  }
+  &.ant-picker-range-wrapper {
+    margin-top: 80px;
+  }
+}
