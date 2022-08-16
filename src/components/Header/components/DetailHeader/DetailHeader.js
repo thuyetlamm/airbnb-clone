@@ -21,8 +21,8 @@ function DetailHeader({
       title: 'Địa điểm',
       subTitle: 'Tìm kiếm điểm đến',
       styleForElement: {
-        padding: '18px 0 18px 24px',
-        width: '270px',
+        padding: '14px 32px',
+        width: '326px',
       },
       titleFitler: null,
     },
@@ -31,7 +31,7 @@ function DetailHeader({
       title: 'Nhận phòng',
       subTitle: 'Thêm ngày',
       styleForElement: {
-        padding: '18px 0 18px 20px',
+        padding: '18px 0 18px 22px',
       },
       titleFitler: startDate,
       icon: <ClearIcon />,
@@ -41,7 +41,7 @@ function DetailHeader({
       title: 'Trả phòng',
       subTitle: 'Thêm ngày',
       styleForElement: {
-        padding: '18px 0 18px  20px',
+        padding: '18px 0 18px  22px',
       },
       titleFitler: endDate,
       icon: <ClearIcon />,
@@ -52,7 +52,7 @@ function DetailHeader({
       subTitle: 'Thêm khách',
       styleForElement: {
         padding: '18px 20px',
-        width: '220px',
+        width: '260px',
       },
       titleFitler: null,
     },
@@ -64,8 +64,16 @@ function DetailHeader({
     setActiveSearch(id);
     handleGetIdActive(id);
   };
+  const handleClickOutSide = (e) => {
+    if (e.target === e.currentTarget) {
+      setActiveSearch(null);
+    }
+  };
   return (
-    <div className={cx('header-detaill')}>
+    <div
+      className={cx('header-detaill')}
+      onClick={(e) => handleClickOutSide(e)}
+    >
       <div className={cx('header-tabs')}>
         {navLinkArr.map((item, idx) => (
           <div
@@ -111,11 +119,20 @@ function DetailHeader({
               </p>
             </div>
           ))}
-          <div className={cx('header-search-button')}>
-            <span className={cx('header-search-icon')}>
-              <ion-icon name="search-sharp"></ion-icon>
-            </span>
-          </div>
+          {activeSearch ? (
+            <div className={cx('header-search-buttonn')}>
+              <span className={cx('header-search-icon')}>
+                <ion-icon name="search-sharp"></ion-icon>
+              </span>
+              <span className={cx('header-search-btn-title')}>Tìm kiếm</span>
+            </div>
+          ) : (
+            <div className={cx('header-search-button')}>
+              <span className={cx('header-search-icon')}>
+                <ion-icon name="search-sharp"></ion-icon>
+              </span>
+            </div>
+          )}
         </div>
       </div>
     </div>

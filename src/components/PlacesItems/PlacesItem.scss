@@ -1,0 +1,76 @@
+.place-wrapper {
+  margin-top: 124px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(302px, 1fr));
+  grid-template-rows: repeat(auto-fit, minmax(286px, 1fr));
+  grid-gap: 120px 18px;
+}
+.place-item {
+  cursor: pointer;
+  max-height: 308px;
+  &-img {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+    img {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+    }
+  }
+  &-content {
+    display: flex;
+    justify-content: space-between;
+    flex: 1;
+    padding-top: 10px;
+    background-color: #fff;
+  }
+  &-decs {
+    line-height: 1;
+  }
+  &-name {
+    font-size: 1.4rem;
+    font-weight: bold;
+  }
+  &-distance {
+    font-size: 1.4rem;
+    line-height: 1;
+    margin-bottom: 6px;
+    color: #888;
+  }
+  &-datetime {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    color: #888;
+  }
+  &-price {
+    font-size: 1.4rem;
+    span {
+      font-weight: 550;
+    }
+  }
+  &-rating {
+    text-align: center;
+    font-size: 1.4rem;
+    line-height: 12px;
+    ion-icon {
+      font-size: 1.2rem;
+    }
+  }
+}
+@media only screen and (max-width: 548px) {
+  .place-wrapper {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+  }
+}
+.place-item:hover .slick-arrow {
+  display: block !important;
+}
+.place-item:hover > .slick-disabled {
+  display: none !important;
+}
+.place-item:hover .slick-disabled {
+  display: none !important;
+}
