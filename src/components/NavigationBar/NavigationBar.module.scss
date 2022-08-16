@@ -1,0 +1,48 @@
+.navbar-wrapper {
+  width: 100%;
+  position: sticky;
+  top: 80px;
+  background-color: #fff;
+  transition: all 0.2s linear;
+  height: 74px;
+  z-index: 20;
+}
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.navbar-item {
+  &-img img {
+    width: 24px;
+    height: 24px;
+    object-fit: center;
+    display: inline-block;
+  }
+}
+.navbar-item-icon {
+  ion-icon {
+    width: 24px;
+    height: 24px;
+  }
+  ion-icon:hover {
+    color: #888;
+  }
+}
+.active {
+  transition: all 0.2s linear;
+  color: black !important;
+  & img {
+    filter: opacity(1) drop-shadow(0 0 0 black) !important;
+  }
+  &:after {
+    content: '';
+    bottom: -8px;
+    left: 2px;
+    width: 94%;
+    height: 2px;
+    background-color: black;
+    z-index: 10;
+    transition: all 0.2s linear;
+  }
+}
