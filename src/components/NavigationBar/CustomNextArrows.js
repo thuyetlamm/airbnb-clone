@@ -4,7 +4,7 @@ function CustomNextArrows(props) {
   return (
     <button
       type="button"
-      className={className}
+      className={`${className} next-arrow-info`}
       onClick={onClick}
       data-role="none"
       style={{ ...style, display: 'block' }}
