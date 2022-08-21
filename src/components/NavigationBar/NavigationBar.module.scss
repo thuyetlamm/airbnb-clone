@@ -5,12 +5,13 @@
   background-color: #fff;
   transition: all 0.2s linear;
   height: 74px;
-  z-index: 20;
+  z-index: 29;
 }
 .navbar-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  z-index: 22;
 }
 .navbar-item {
   &-img img {
@@ -45,4 +46,7 @@
     z-index: 10;
     transition: all 0.2s linear;
   }
+}
+.category {
+  padding-top: 0 !important;
 }
