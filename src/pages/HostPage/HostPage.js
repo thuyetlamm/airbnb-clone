@@ -85,7 +85,7 @@ function HostPage(props) {
         <div
           style={{
             height: '800px',
-            backgroundColor: '#ccc',
+            backgroundColor: '#fff',
           }}
         ></div>
         <header className="header-main" ref={headerMainRef}>
