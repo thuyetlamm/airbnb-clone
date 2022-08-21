@@ -4,7 +4,7 @@ function CustomPrevArrows(props) {
   return (
     <button
       type="button"
-      className={className}
+      className={`${className} prev-arrow-info`}
       onClick={onClick}
       style={{ ...style, display: 'block' }}
     >

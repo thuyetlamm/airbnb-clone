@@ -1,10 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import CustomNextArrows from '~/components/NavigationBar/CustomNextArrows';
+import CustomPrevArrows from '~/components/NavigationBar/CustomPrevArrows';
 import './HostPage.scss';
 HostPage.propTypes = {};
 
 function HostPage(props) {
   const [playVideo, setPlayVideo] = useState(true);
+  const [indexSlide, setIndexSlide] = useState(0);
   const videoRef = useRef();
   const headerMainRef = useRef();
   const handleClickVideo = () => {
@@ -25,8 +31,7 @@ function HostPage(props) {
   };
   useEffect(() => {
     window.onscroll = () => {
-      console.log(document.documentElement.scrollTop);
-      if (document.documentElement.scrollTop > 640) {
+      if (document.documentElement.scrollTop > 646) {
         headerMainRef.current.style.display = 'block';
         headerMainRef.current.style.opacity = 1;
         headerMainRef.current.style.transition = 'all 0.2s linear';
@@ -38,6 +43,72 @@ function HostPage(props) {
       }
     };
   }, []);
+  const hostList = [
+    {
+      id: 1,
+      imageURL:
+        'https://a0.muscache.com/im/pictures/4f3047b2-58ea-4335-8430-dfc6f436634d.jpg?im_w=1200 2x',
+      subTitle:
+        'Việc cho thuê căn hộ studio đã làm thay đổi cuộc sống của tôi và mang đến cho tôi những trải nghiệm và con người đáng nhớ.',
+    },
+    {
+      id: 2,
+      imageURL:
+        'https://a0.muscache.com/im/pictures/31fb3cb1-c2a1-4e14-a9e9-6f279991790b.jpg?im_w=1200 2x',
+      subTitle:
+        'Cho thuê nhà cho phép tôi trở thành một doanh nhân và vạch ra con đường dẫn đến tự do tài chính.',
+    },
+    {
+      id: 3,
+      imageURL:
+        'https://a0.muscache.com/im/pictures/a464d642-695e-4d2c-aa51-2302de067f45.jpg?im_w=1200 2x',
+      subTitle:
+        'Chúng tôi có thể bảo tồn nền văn hóa của mình bằng cách tổ chức trải nghiệm làm mì Ý.',
+    },
+    {
+      id: 4,
+      imageURL:
+        'https://a0.muscache.com/im/pictures/d8627b07-b42c-40a1-807f-1eac9de39311.jpg?im_w=1200 2x',
+      subTitle:
+        'Airbnb đã cho tôi cơ hội tạo công ăn việc làm cho chính bản thân bằng cách làm những điều tôi yêu thích – đó là chăm sóc khách thuê nhà mình.',
+    },
+    {
+      id: 5,
+      imageURL:
+        'https://a0.muscache.com/im/pictures/b56f3d7c-5006-4ed2-967a-c421e3275b1f.jpg?im_w=1200 2x',
+      subTitle:
+        'Việc cho thuê căn lều bedouin đã cho tôi cơ hội được gặp gỡ những con người đến từ khắp nơi trên thế giới.',
+    },
+    {
+      id: 6,
+      imageURL:
+        'https://a0.muscache.com/im/pictures/334530d8-2ad6-40e8-8fd2-4ac0835e693a.jpg?im_w=1200 2x',
+      subTitle:
+        'Tôi rất thích cho thuê ngôi nhà sinh thái của mình để mọi người có thể kết nối với thiên nhiên và những người thân yêu của họ.',
+    },
+    {
+      id: 7,
+    },
+    {
+      id: 8,
+    },
+  ];
+  const handleGetCurrentSlide = (current, next) => {
+    setIndexSlide(next);
+  };
+  const settings = {
+    className: 'center',
+    centerMode: true,
+    infinite: false,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    centerPadding: '40px',
+    draggable: true,
+    speed: 600,
+    focusOnSelect: true,
+    nextArrow: <CustomNextArrows />,
+    prevArrow: <CustomPrevArrows />,
+  };
   return (
     <div className="host-page">
       <div className="wrapper">
@@ -82,12 +153,35 @@ function HostPage(props) {
             </button>
           </div>
         </div>
-        <div
-          style={{
-            height: '800px',
-            backgroundColor: '#fff',
-          }}
-        ></div>
+        <div className="host-carousel">
+          <div className="container">
+            <div className="host-info">
+              <h2 className="host-info-title" tabIndex={-1}>
+                <div role="text">
+                  Bạn có thể đón tiếp
+                  <br></br>
+                  bất kỳ ai, ở bất cứ đâu
+                </div>
+              </h2>
+              <div className="host-info-carousel">
+                <Slider {...settings} beforeChange={handleGetCurrentSlide}>
+                  {hostList.map((item) => (
+                    <div className="host-info-item" key={item.id}>
+                      <img srcSet={item?.imageURL} alt={item?.subTitle} />
+                    </div>
+                  ))}
+                </Slider>
+                <div className="host-info-decs">
+                  <div className="host-info-content">
+                    <h2 className="host-info-content-title" role="text">
+                      {hostList[indexSlide]?.subTitle}
+                    </h2>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <header className="header-main" ref={headerMainRef}>
           <div className="container">
             <div className="header-main-container">
