@@ -157,7 +157,7 @@ function HostPage(props) {
           <div className="container">
             <div className="host-info">
               <h2 className="host-info-title" tabIndex={-1}>
-                <div role="text">
+                <div>
                   Bạn có thể đón tiếp
                   <br></br>
                   bất kỳ ai, ở bất cứ đâu
