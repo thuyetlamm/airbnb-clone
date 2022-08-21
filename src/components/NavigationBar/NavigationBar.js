@@ -9,6 +9,7 @@ const cx = classNames.bind(styles);
 NavigationBar.propTypes = {};
 
 function NavigationBar(props) {
+  const { ischangeView } = props;
   const navBarArr = [
     {
       id: 1,
@@ -206,7 +207,7 @@ function NavigationBar(props) {
       widthForItem: '40px',
     },
   ];
-  const [activeId, setActiveId] = useState('TAB_8225');
+  const [activeId, setActiveId] = useState(1);
   const [categoryList, setCategoryList] = useState([]);
   const [loadingCategory, setLoadingCategory] = useState(true);
   useEffect(() => {
@@ -249,7 +250,12 @@ function NavigationBar(props) {
   return (
     <div className={cx('navbar-wrapper')} ref={navBarWrapperRef}>
       <div className={cx('container')}>
-        <div className={cx('navbar-container')} ref={navBarRef}>
+        <div
+          className={cx('navbar-container', {
+            category: !ischangeView,
+          })}
+          ref={navBarRef}
+        >
           <Carousel
             breakPoints={breakPoints}
             itemPadding={[0, 18]}

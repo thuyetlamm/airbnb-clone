@@ -19,6 +19,7 @@ body {
 .wrapper {
   max-width: var(--background-size);
   margin: 0 auto;
+  height: 100vh;
 }
 .container {
   max-width: var(--background-size);
@@ -344,4 +345,20 @@ body {
   color: white !important;
   opacity: 1 !important;
   font-size: 1rem !important;
+}
+.mapboxgl-popup,
+.mapboxgl-popup-content {
+  width: 324px !important;
+  height: 300px !important;
+}
+.mapboxgl-popup-content {
+  border-radius: 12px !important;
+  position: relative;
+  background: #fff;
+  border-radius: 3px;
+  box-shadow: 0 1px 2pxrgb (0 0 0/10%);
+  padding: 0 !important;
+  pointer-events: auto;
+  margin-top: 12px;
+  transform: translateX(-12%);
 }
