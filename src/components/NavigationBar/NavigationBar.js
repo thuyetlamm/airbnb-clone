@@ -211,13 +211,16 @@ function NavigationBar(props) {
   const [categoryList, setCategoryList] = useState([]);
   const [loadingCategory, setLoadingCategory] = useState(true);
   useEffect(() => {
-    const timeIds = setInterval(() => {
-      setCategoryList(navBarArr);
+    const fetchCategory = async () => {
+      try {
+        const category = await categoryApi.getAll();
+        setCategoryList(category);
+      } catch (error) {
+        throw new Error(error);
+      }
       setLoadingCategory(false);
-    }, [1200]);
-    return () => {
-      clearInterval(timeIds);
     };
+    fetchCategory();
   }, []);
   const breakPoints = [
     { width: 1, itemsToShow: 1 },
@@ -271,9 +274,14 @@ function NavigationBar(props) {
                   })}
                   onClick={() => handleGetIdItem(item.id)}
                 >
-                  <img src={item.imageLink} alt={item.title} />
+                  <img
+                    src={item.attributes.imageUrl}
+                    alt={item.attributes.title}
+                  />
 
-                  <span className={cx('navbar-item-title')}>{item.title}</span>
+                  <span className={cx('navbar-item-title')}>
+                    {item.attributes.title}
+                  </span>
                 </Item>
               ))}
             {loadingCategory &&

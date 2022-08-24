@@ -59,6 +59,7 @@ function Header(props) {
     });
     setIdActive(showDetailHeader.id);
   };
+
   return (
     <div className={cx('header')}>
       <div className={cx('container')}>
