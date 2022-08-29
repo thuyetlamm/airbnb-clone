@@ -1,13 +1,13 @@
 .place-wrapper {
-  margin-top: 124px;
+  margin-top: 110px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(302px, 1fr));
-  grid-template-rows: repeat(auto-fit, minmax(286px, 1fr));
-  grid-gap: 120px 18px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-rows: repeat(auto-fit, minmax(290px, 1fr));
+  grid-gap: 110px 18px;
 }
 .place-item {
   cursor: pointer;
-  max-height: 308px;
+  max-height: 320px;
   &-img {
     width: 100%;
     height: 100%;

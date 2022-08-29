@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Map, { Marker, Popup, GeolocateControl } from 'react-map-gl';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -8,14 +8,18 @@ import './MapBox.scss';
 import CustomNextArrows from '../NavigationBar/CustomNextArrows';
 import CustomPrevArrows from '../NavigationBar/CustomPrevArrows';
 function MapBox(props) {
+  const [isShowPopup, setShowPopup] = useState(false);
+  const [longTitude, setLongitude] = useState();
+  const [laTitude, setLatitude] = useState();
+
   const [viewport, setViewport] = useState({
     width: '100vw',
     height: '90vh',
-    latitude: 10.827563,
-    longitude: 106.695497,
     zoom: 6,
+    longitude: 105.232323,
+    latitude: 15.3434,
   });
-  const [isShowPopup, setShowPopup] = useState(false);
+
   const settings = {
     dots: true,
     slidesToShow: 1,
@@ -322,7 +326,12 @@ function MapBox(props) {
       ],
     },
   ];
-
+  // if (navigator.geolocation) {
+  //   navigator.geolocation.getCurrentPosition(function (position) {
+  //     let long = position.coords.longitude;
+  //     console.log(long);
+  //   });
+  // }
   return (
     <div className="map-box">
       <Map
@@ -392,7 +401,7 @@ function MapBox(props) {
                   }
             }
           >
-            $120
+            $169
           </span>
         </Marker>
         <GeolocateControl></GeolocateControl>
