@@ -223,7 +223,7 @@ body {
 }
 
 .ant-list-item {
-  $colorHover: #888;
+  $colorHover: #717171;
   position: relative;
   display: flex;
   align-items: center;
@@ -240,6 +240,7 @@ body {
   white-space: nowrap;
   font-size: 1.2rem;
   font-weight: 600;
+  line-height: 1.6rem;
 }
 .ant-list-item img {
   width: 24px;

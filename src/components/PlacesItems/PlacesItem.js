@@ -9,7 +9,7 @@ import CustomPrevArrows from '../NavigationBar/CustomPrevArrows';
 PlacesItem.propTypes = {};
 
 function PlacesItem(props) {
-  const { arrImage } = props;
+  const { placeList = [] } = props;
 
   const settings = {
     dots: true,
@@ -26,28 +26,28 @@ function PlacesItem(props) {
 
   return (
     <div className="place-wrapper">
-      {arrImage.map((item) => (
-        <div className="place-item" key={item.parentId}>
-          <Link to="/rooms">
+      {placeList.map((item) => (
+        <div className="place-item" key={item.id}>
+          <Link to="/rooms" target="_blank">
             <Slider {...settings}>
-              {item.images.map((image) => (
+              {item.attributes.images_urls.data.map((image) => (
                 <div className="place-item-img" key={image.id}>
-                  <img src={image.url} alt="homes" />
+                  <img src={image.attributes.imagesUrl} alt="homes" />
                 </div>
               ))}
             </Slider>
             <div className="place-item-content">
               <div className="place-item-decs">
-                <h1 className="place-item-name">Dangar IsLand , UC</h1>
+                <h1 className="place-item-name">{item.attributes.country}</h1>
                 <p className="place-item-distance"> Cách 6.816 km</p>
                 <p className="place-item-datetime">Ngày 14 - Ngày 19 tháng 8</p>
                 <span className="place-item-price">
-                  <span>$169</span> đêm
+                  <span>${item.attributes.priceOfPlace}</span> đêm
                 </span>
               </div>
               <div className="place-item-rating">
                 <ion-icon name="star"></ion-icon>
-                <span>4.9</span>
+                <span>{item.attributes.ratingVote}</span>
               </div>
             </div>
           </Link>
