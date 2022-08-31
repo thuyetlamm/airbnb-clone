@@ -9,7 +9,7 @@ import CustomPrevArrows from '../NavigationBar/CustomPrevArrows';
 PlacesItem.propTypes = {};
 
 function PlacesItem(props) {
-  const { placeList = [] } = props;
+  const { placeList = [], onChange } = props;
 
   const settings = {
     dots: true,
@@ -24,11 +24,21 @@ function PlacesItem(props) {
     appendDots: (dots) => <ul>{dots}</ul>,
   };
 
+  const handleClickPlaceItem = (placeItemId) => {
+    if (onChange) {
+      onChange(placeItemId);
+    }
+  };
+
   return (
     <div className="place-wrapper">
       {placeList.map((item) => (
-        <div className="place-item" key={item.id}>
-          <Link to="/rooms" target="_blank">
+        <div
+          className="place-item"
+          key={item.id}
+          onClick={() => handleClickPlaceItem(item.id)}
+        >
+          <Link to={`/rooms/${item.id}`} target="_blank">
             <Slider {...settings}>
               {item.attributes.images_urls.data.map((image) => (
                 <div className="place-item-img" key={image.id}>

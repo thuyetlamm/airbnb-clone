@@ -7,14 +7,18 @@ import styles from './HomePage.module.scss';
 import Footer from '~/components/Footer/Footer';
 import MapBox from '~/components/MapBox/MapBox';
 import placeListApi from '~/api/placeListApi';
+import { useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
+const qs = require('qs');
 
 const cx = classNames.bind(styles);
 HomePage.propTypes = {};
 
-function HomePage(props) {
+function HomePage() {
   const [isChangeView, setChangeView] = useState(true);
   const [loadingPlaceList, setLoadingPlaceList] = useState(true);
   const [placeList, setPlaceList] = useState([]);
+  const navigation = useNavigate();
   const [filters, setFilters] = useState({
     populate: '*',
     pagination: {
@@ -36,7 +40,6 @@ function HomePage(props) {
     (async () => {
       try {
         const list = await placeListApi.getAll(filters);
-        console.log('re-call', filters);
         setPlaceList(list);
       } catch (error) {
         throw new Error(error);
@@ -46,15 +49,19 @@ function HomePage(props) {
   }, [filters]);
 
   const handleChangeTabCategory = (newCategoryIds) => {
-    console.log(newCategoryIds);
-    setFilters((prevFilter) => ({
-      ...prevFilter,
+    const newFilters = {
+      ...filters,
       filters: {
         categoryIds: {
           $in: newCategoryIds,
         },
       },
-    }));
+    };
+    setFilters(newFilters);
+    navigation(`/placelists/?${qs.stringify(newFilters)}`);
+  };
+  const handleClickPlaceItem = (newPlaceIds) => {
+    localStorage.setItem('place_id', JSON.stringify(newPlaceIds));
   };
   return (
     <div
@@ -62,17 +69,20 @@ function HomePage(props) {
         subWrapper: !isChangeView,
       })}
     >
+      <Helmet>
+        <title>Nhà nghỉ dưỡng & Căn hộ cao cấp cho thuê - Airbnb </title>
+      </Helmet>
       <Header />
       <div className={cx('content-container')}>
         <NavigationBar
           isChangeView={isChangeView}
-          filters={filters}
           onChange={handleChangeTabCategory}
         />
         {isChangeView ? (
           <PlacesList
             loadingPlaceList={loadingPlaceList}
             placeList={placeList}
+            onChange={handleClickPlaceItem}
           />
         ) : (
           <MapBox />
