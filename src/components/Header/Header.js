@@ -99,7 +99,7 @@ function Header(props) {
             )}
           </div>
           <div className={cx('header-options')}>
-            <Link to="/home/host">
+            <Link to="/home/hosts">
               <span className={cx('header-options-host')}>
                 Trở thành chủ nhà
               </span>

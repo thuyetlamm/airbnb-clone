@@ -5,10 +5,12 @@ import PlacesItem from '~/components/PlacesItems/PlacesItem';
 import PlacesItemSkeleton from '~/components/PlacesItems/PlacesItemSkeleton';
 const cx = classNames.bind(styles);
 
-function PlacesList({ loadingPlaceList, placeList = [] }) {
+function PlacesList({ loadingPlaceList, placeList = [], onChange }) {
   return (
     <div className={cx('container')}>
-      {!loadingPlaceList && <PlacesItem placeList={placeList} />}
+      {!loadingPlaceList && (
+        <PlacesItem placeList={placeList} onChange={onChange} />
+      )}
       {loadingPlaceList && <PlacesItemSkeleton length={12} />}
     </div>
   );

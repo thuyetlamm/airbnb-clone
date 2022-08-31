@@ -6,6 +6,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import CustomNextArrows from '~/components/NavigationBar/CustomNextArrows';
 import CustomPrevArrows from '~/components/NavigationBar/CustomPrevArrows';
 import './HostPage.scss';
+import { Helmet } from 'react-helmet-async';
 HostPage.propTypes = {};
 
 function HostPage(props) {
@@ -111,6 +112,9 @@ function HostPage(props) {
   };
   return (
     <div className="host-page">
+      <Helmet>
+        <title>Cho thuê nhà trên Airbnb</title>
+      </Helmet>
       <div className="wrapper">
         <div className="host-header">
           <div className="host-header-left">
@@ -173,7 +177,7 @@ function HostPage(props) {
                 </Slider>
                 <div className="host-info-decs">
                   <div className="host-info-content">
-                    <h2 className="host-info-content-title" role="text">
+                    <h2 className="host-info-content-title">
                       {hostList[indexSlide]?.subTitle}
                     </h2>
                   </div>

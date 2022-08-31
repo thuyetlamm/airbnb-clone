@@ -5,14 +5,13 @@ import classNames from 'classnames/bind';
 import Item from 'antd/lib/list/Item';
 import categoryApi from '~/api/categoryApi';
 import Skeleton from '@mui/material/Skeleton';
-import { useNavigate } from 'react-router-dom';
-const qs = require('qs');
+
 const cx = classNames.bind(styles);
 NavigationBar.propTypes = {};
 
 function NavigationBar(props) {
-  const { ischangeView, filters = {}, onChange } = props;
-  const navigation = useNavigate();
+  const { ischangeView, onChange } = props;
+
   const [activeId, setActiveId] = useState(1);
   const [categoryList, setCategoryList] = useState([]);
   const [loadingCategory, setLoadingCategory] = useState(true);
@@ -34,9 +33,6 @@ function NavigationBar(props) {
     { width: 768, itemsToShow: 3 },
     { width: 1200, itemsToShow: 12, itemsToScroll: 4 },
   ];
-  useEffect(() => {
-    navigation(`/placelists/?${qs.stringify(filters)}`);
-  }, [filters]);
 
   const handleGetIdItem = (id) => {
     if (onChange) {
@@ -45,8 +41,6 @@ function NavigationBar(props) {
     if (activeId !== id) {
       setActiveId(id);
     }
-
-    navigation(`/placelists/?${qs.stringify(filters)}`);
   };
   const navBarRef = useRef();
   const navBarWrapperRef = useRef();
