@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import CalendarComp from '~/components/Calendar/Calendar';
 import DefaultHeader from './components/DefaultHeader/DefaultHeader';
@@ -12,6 +12,7 @@ function Header(props) {
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const [idActive, setIdActive] = useState(1);
+  const searchRef = useRef();
 
   useEffect(() => {
     const timeIds = setTimeout(() => {
@@ -59,15 +60,20 @@ function Header(props) {
     });
     setIdActive(showDetailHeader.id);
   };
-
   return (
     <div className={cx('header')}>
       <div className={cx('container')}>
         <div
-          className={cx('header-container', {
-            'header-default': !showDetailHeader.isActive,
-            'header-detail': showDetailHeader.isActive,
-          })}
+          className={cx('header-container')}
+          ref={searchRef}
+          style={
+            !showDetailHeader.isActive
+              ? {
+                  height: '80px',
+                  alignItems: 'center',
+                }
+              : { height: '160px', alignItems: 'flex-start', marginTop: '24px' }
+          }
         >
           <Link to="/">
             <div className={cx('logo-header')}>
@@ -79,7 +85,12 @@ function Header(props) {
               <span className={cx('logo-title')}>airbnb</span>
             </div>
           </Link>
-          <div>
+          <div
+            className={cx({
+              'header-default': !showDetailHeader.isActive,
+              'header-detail': showDetailHeader.isActive,
+            })}
+          >
             {!showDetailHeader.isActive ? (
               <DefaultHeader hanldeShowDetailHeader={hanldeShowDetailHeader} />
             ) : (

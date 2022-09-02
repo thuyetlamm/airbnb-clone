@@ -188,6 +188,7 @@ function DetailPlacePage() {
                     <div className="detail-convenient-title">
                       <h1>Hủy miễn phí trước 29 thg 10.</h1>
                     </div>
+                    P
                   </div>
                 </div>
               </div>

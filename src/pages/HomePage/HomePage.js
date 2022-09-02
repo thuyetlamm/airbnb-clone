@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Header from '~/components/Header/Header';
 import NavigationBar from '~/components/NavigationBar/NavigationBar';
 import PlacesList from '~/components/PlacesList/PlacesList';
@@ -39,7 +39,9 @@ function HomePage() {
   useEffect(() => {
     (async () => {
       try {
+        setLoadingPlaceList(true);
         const list = await placeListApi.getAll(filters);
+
         setPlaceList(list);
       } catch (error) {
         throw new Error(error);
@@ -48,18 +50,21 @@ function HomePage() {
     })();
   }, [filters]);
 
-  const handleChangeTabCategory = (newCategoryIds) => {
-    const newFilters = {
-      ...filters,
-      filters: {
-        categoryIds: {
-          $in: newCategoryIds,
+  const handleChangeTabCategory = useCallback(
+    (newCategoryIds) => {
+      const newFilters = {
+        ...filters,
+        filters: {
+          categoryIds: {
+            $in: newCategoryIds,
+          },
         },
-      },
-    };
-    setFilters(newFilters);
-    navigation(`/placelists/?${qs.stringify(newFilters)}`);
-  };
+      };
+      setFilters(newFilters);
+      navigation(`/placelists/?${qs.stringify(newFilters)}`);
+    },
+    [filters]
+  );
   const handleClickPlaceItem = (newPlaceIds) => {
     localStorage.setItem('place_id', JSON.stringify(newPlaceIds));
   };
