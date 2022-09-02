@@ -79,11 +79,11 @@
 @keyframes showHideHeader {
   from {
     opacity: 0;
-    transform: translateY(-100%);
+    transform: scale(0);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: scale(1);
   }
 }
 .header {
@@ -101,10 +101,8 @@
     justify-content: space-between;
     transition: all 0.15s ease-in-out;
   }
-
   &-default {
     align-items: center;
-    height: 80px;
     &:after {
       position: absolute;
       content: '';
@@ -117,12 +115,10 @@
     }
   }
   &-detail {
-    height: 160px;
     align-items: flex-start;
-    transform: translateY(22px);
+    transform: translateY(20%);
   }
 }
-
 .overlay {
   &::after {
     content: '';

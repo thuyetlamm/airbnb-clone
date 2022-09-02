@@ -90,7 +90,6 @@ function DetailHeader({
             )}
           </div>
         ))}
-        {/* </div> */}
       </div>
       <div className={cx('wrap-search')}>
         <div className={cx('header-search')}>

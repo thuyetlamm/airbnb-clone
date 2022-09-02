@@ -1,34 +1,24 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Carousel from 'react-elastic-carousel';
 import styles from './NavigationBar.module.scss';
 import classNames from 'classnames/bind';
 import Item from 'antd/lib/list/Item';
 import categoryApi from '~/api/categoryApi';
 import Skeleton from '@mui/material/Skeleton';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleLoading } from './categorySlice';
 const cx = classNames.bind(styles);
 
 function NavigationBar(props) {
   const { ischangeView, onChange } = props;
-
   const [activeId, setActiveId] = useState();
   const [categoryList, setCategoryList] = useState([]);
-  const [loadingCategory, setLoadingCategory] = useState(true);
-  const shuffle = (arr) => [...arr].sort(() => Math.random() - 0.5);
-  useEffect(() => {
-    const fetchCategory = async () => {
-      try {
-        const category = await categoryApi.getAll({
-          populate: '*',
-        });
-        const result = await shuffle(category);
-        setCategoryList(result);
-      } catch (error) {
-        throw new Error(error);
-      }
-    };
-    fetchCategory();
-    setLoadingCategory(false);
-  }, []);
+  const [distance, setDistance] = useState(0);
+  const dispatch = useDispatch();
+  const loadingGlobal = useSelector((state) => state.category);
+  const navBarRef = useRef();
+  const navBarWrapperRef = useRef();
+  // const randomCategory = (arr) => [...arr].sort(() => Math.random() - 0.5);
   const breakPoints = [
     { width: 1, itemsToShow: 1 },
     { width: 550, itemsToShow: 2, itemsToScroll: 2 },
@@ -36,16 +26,24 @@ function NavigationBar(props) {
     { width: 1200, itemsToShow: 12, itemsToScroll: 4 },
   ];
 
-  const handleGetIdItem = (id) => {
-    if (onChange) {
-      onChange(id);
-    }
-    if (activeId !== id) {
-      setActiveId(id);
-    }
-  };
-  const navBarRef = useRef();
-  const navBarWrapperRef = useRef();
+  useEffect(() => {
+    (async () => {
+      try {
+        const category = await categoryApi.getAll();
+        // const result = randomCategory(category);
+        setCategoryList(category);
+      } catch (error) {
+        throw new Error(error);
+      }
+    })();
+    const timeIds = setTimeout(() => {
+      dispatch(toggleLoading(false));
+    }, 1200);
+    return () => {
+      clearTimeout(timeIds);
+    };
+  }, []);
+
   useEffect(() => {
     window.addEventListener('scroll', (e) => {
       if (document.documentElement.scrollTop === 0) {
@@ -58,8 +56,22 @@ function NavigationBar(props) {
         navBarWrapperRef.current.style.boxShadow =
           '0 1em 1em -1em rgba(0 0 0 / 15%)';
       }
+      setDistance(document.documentElement.scrollTop);
     });
   }, []);
+
+  const handleGetIdItem = (id) => {
+    if (onChange) {
+      onChange(id);
+    }
+    if (activeId !== id) {
+      setActiveId(id);
+    }
+    if (distance > 0) {
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    }
+  };
 
   return (
     <div className={cx('navbar-wrapper')} ref={navBarWrapperRef}>
@@ -70,14 +82,13 @@ function NavigationBar(props) {
           })}
           ref={navBarRef}
         >
-          {console.log('re-render')}
           <Carousel
             breakPoints={breakPoints}
             itemPadding={[0, 18]}
             enableSwipe={false}
             showEmptySlots={false}
           >
-            {!loadingCategory &&
+            {!loadingGlobal.loading &&
               categoryList.map((item) => (
                 <Item
                   key={item.id}
@@ -96,7 +107,7 @@ function NavigationBar(props) {
                   </span>
                 </Item>
               ))}
-            {loadingCategory &&
+            {loadingGlobal.loading &&
               Array(16)
                 .fill(0)
                 .map((item, index) => (
@@ -123,4 +134,4 @@ function NavigationBar(props) {
   );
 }
 
-export default NavigationBar;
+export default React.memo(NavigationBar);
