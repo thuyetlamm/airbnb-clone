@@ -1,6 +1,6 @@
 import axios from 'axios';
 const axiosClient = axios.create({
-  baseURL: 'http://localhost:1337/api',
+  baseURL: 'https://frozen-garden-38328.herokuapp.com/api',
   headers: {
     'Content-Type': 'application/json',
   },

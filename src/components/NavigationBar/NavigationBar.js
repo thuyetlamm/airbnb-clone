@@ -1,31 +1,33 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import Carousel from 'react-elastic-carousel';
 import styles from './NavigationBar.module.scss';
 import classNames from 'classnames/bind';
 import Item from 'antd/lib/list/Item';
 import categoryApi from '~/api/categoryApi';
 import Skeleton from '@mui/material/Skeleton';
-
 const cx = classNames.bind(styles);
-NavigationBar.propTypes = {};
 
 function NavigationBar(props) {
   const { ischangeView, onChange } = props;
 
-  const [activeId, setActiveId] = useState(1);
+  const [activeId, setActiveId] = useState();
   const [categoryList, setCategoryList] = useState([]);
   const [loadingCategory, setLoadingCategory] = useState(true);
+  const shuffle = (arr) => [...arr].sort(() => Math.random() - 0.5);
   useEffect(() => {
     const fetchCategory = async () => {
       try {
-        const category = await categoryApi.getAll();
-        setCategoryList(category);
+        const category = await categoryApi.getAll({
+          populate: '*',
+        });
+        const result = await shuffle(category);
+        setCategoryList(result);
       } catch (error) {
         throw new Error(error);
       }
-      setLoadingCategory(false);
     };
     fetchCategory();
+    setLoadingCategory(false);
   }, []);
   const breakPoints = [
     { width: 1, itemsToShow: 1 },
@@ -68,6 +70,7 @@ function NavigationBar(props) {
           })}
           ref={navBarRef}
         >
+          {console.log('re-render')}
           <Carousel
             breakPoints={breakPoints}
             itemPadding={[0, 18]}
@@ -79,7 +82,7 @@ function NavigationBar(props) {
                 <Item
                   key={item.id}
                   className={cx({
-                    active: activeId === item.id,
+                    active: item.id === (activeId || categoryList[0].id),
                   })}
                   onClick={() => handleGetIdItem(item.id)}
                 >
