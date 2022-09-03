@@ -3,13 +3,15 @@ import './DefaultHeader.scss';
 import PropTypes from 'prop-types';
 import Item from 'antd/lib/list/Item';
 import Skeleton from '@mui/material/Skeleton';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleLoading } from '~/components/NavigationBar/categorySlice';
 
 DefaultHeader.prototype = {
   hanldeShowDetailHeader: PropTypes.func,
 };
 function DefaultHeader(props) {
   const { hanldeShowDetailHeader } = props;
+  const dispatch = useDispatch();
   const loadingDefaultHeader = useSelector((state) => state.category);
   const handleClick = (id) => {
     const newArray = {
@@ -34,7 +36,11 @@ function DefaultHeader(props) {
       title: 'Thêm khách',
     },
   ];
-
+  useEffect(() => {
+    if (loadingDefaultHeader.loading) {
+      dispatch(toggleLoading(false));
+    }
+  }, []);
   return (
     <div className="header-search">
       {!loadingDefaultHeader.loading &&

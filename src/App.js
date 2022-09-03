@@ -2,7 +2,10 @@ import HomePage from './pages/HomePage/HomePage';
 import { Routes, Route } from 'react-router-dom';
 import 'antd/dist/antd.min.css';
 import HostPage from './pages/HostPage/HostPage';
-import DetailPlacePage from './pages/DetailsPlace/DetailPlacePage';
+import { lazy, Suspense } from 'react';
+const DetailPlacePage = lazy(() =>
+  import('./pages/DetailsPlace/DetailPlacePage')
+);
 function App() {
   return (
     <Routes>
