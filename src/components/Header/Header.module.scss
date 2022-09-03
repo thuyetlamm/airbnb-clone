@@ -6,7 +6,7 @@
   letter-spacing: 0.01rem;
   font-size: 2.2rem;
   color: var(--primary-color);
-  font-weight: 700;
+  font-weight: 600;
 }
 .logo-header {
   display: block;
@@ -87,14 +87,13 @@
   }
 }
 .header {
+  width: 100%;
   position: fixed;
-  z-index: 100;
-  left: 0;
-  right: 0;
+  z-index: 40;
   top: 0;
   background-color: white;
-
   &-container {
+    width: 100%;
     padding-bottom: 4px;
     line-height: 20px;
     display: flex;
@@ -106,7 +105,8 @@
     &:after {
       position: absolute;
       content: '';
-      width: 100vw;
+      right: 0;
+      left: 0;
       height: 1px;
       top: 80px;
       bottom: 0;
