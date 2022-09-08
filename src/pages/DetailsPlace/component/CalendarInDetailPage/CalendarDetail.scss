@@ -1,0 +1,43 @@
+.ant-picker {
+  width: 100%;
+  padding: 14px !important;
+  border: none !important;
+  border-top-left-radius: 8px !important;
+  border-top-right-radius: 8px !important;
+  cursor: pointer;
+}
+.ant-picker-focused {
+  border: 1px solid #000 !important;
+  box-shadow: none !important;
+  border-bottom-left-radius: 8px !important;
+  border-bottom-right-radius: 8px !important;
+}
+.ant-picker-range .ant-picker-active-bar {
+  left: 16px !important;
+  bottom: 4px !important;
+  background-color: #000 !important;
+  width: 100px !important;
+}
+.ant-picker-panel-container {
+  border-radius: 12px;
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 4%), 0 8px 16px rgb(0 0 0 / 15%);
+  height: 504px !important;
+  width: 662px !important;
+  position: absolute;
+  left: 26px;
+  transform: translateX(-50%) translateY(0);
+  top: 0;
+}
+.ant-picker-input input {
+  padding-left: 16px;
+}
+.ant-picker-input input::placeholder {
+  color: #000 !important;
+}
+.separate {
+  position: absolute;
+  top: 0;
+  width: 1px;
+  height: 100%;
+  background-color: #ccc;
+}
