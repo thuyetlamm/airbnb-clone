@@ -1,0 +1,112 @@
+.detail-page .Header_header__OKWO7 {
+  position: unset !important;
+  width: 100%;
+}
+
+.detail-main {
+  margin: 0 80px;
+  &-title {
+    padding: 24px 0 0;
+  }
+  &-decs {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    line-height: 30px;
+  }
+  &-images {
+    max-height: 380px;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 10px;
+  }
+}
+.left {
+  width: 50%;
+  display: flex;
+
+  > span {
+    -webkit-transform: scale(1, 1.6) !important;
+  }
+}
+.right {
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.span-left {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-content: space-between;
+  > span {
+    -webkit-transform: scale(1, 1) !important;
+  }
+}
+.span-right {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  > span {
+    -webkit-transform: scale(1, 1) !important;
+  }
+}
+.footer {
+  margin-top: 48px;
+  display: flex;
+  height: 120px;
+}
+.info-left {
+  width: 59%;
+  display: flex;
+  justify-content: space-between;
+  span:nth-child(2) {
+    span {
+      border-radius: 50%;
+    }
+  }
+}
+.info-right {
+  margin-left: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+@media screen and (min-width: 1440px) {
+  .detail-page .Header_header-container__4tcDx {
+    padding: 0 80px !important;
+  }
+  .detail-main {
+    margin: 0 80px !important;
+  }
+  .detail-header-container {
+    padding: 0 80px !important;
+  }
+  .detail-footer-content {
+    margin: 0 80px !important;
+    width: calc(100% - 160px) !important;
+  }
+}
+
+@media screen and (min-width: 748px) and (max-width: 1439px) {
+  .detail-page .Header_header__OKWO7 {
+    margin: 0;
+  }
+  .detail-main {
+    margin: 0;
+  }
+  .detail-header-container {
+    margin: 0;
+  }
+  .detail-footer-content {
+    margin: 0;
+  }
+  .detail-footer-content-section {
+    width: calc(50% - 24px) !important;
+  }
+}

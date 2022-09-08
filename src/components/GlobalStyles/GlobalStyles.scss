@@ -1,10 +1,10 @@
 @import './reset.scss';
-@import url('https://fonts.googleapis.com/css2?family=Edu+QLD+Beginner:wght@400;600;700&family=Montserrat:ital,wght@0,300;0,400;0,600;1,700&family=Oswald:wght@400;500;600&family=Poppins:wght@300;400;600&family=Sora:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap');
 
 :root {
   --primary-color: #ff385c;
-  --background-size: 100vw;
-  --container-size: 1425px;
+  --background-size: 1600px;
+  --container-size: 1440px;
 }
 html {
   font-size: 62.5%;
@@ -140,7 +140,6 @@ body {
 .ant-picker-range-arrow {
   display: none !important;
 }
-
 .slick-arrow {
   display: none !important;
   position: absolute;
@@ -268,10 +267,10 @@ body {
   -webkit-flex-direction: row;
   -ms-flex-direction: row;
   flex-direction: row;
-  width: 96%;
+  width: 100%;
 
   position: relative;
-  height: 80px !important;
+  height: 74px !important;
 }
 
 .rec.hHJTFD {
@@ -288,7 +287,7 @@ body {
   transform: translateY(-68%);
 }
 .rec.rec-arrow-left {
-  left: -26px;
+  left: -9px;
 
   &:after {
     position: absolute;
@@ -304,7 +303,7 @@ body {
 }
 
 .rec.rec-arrow-right {
-  right: -26px;
+  right: -9px;
   &:before {
     position: absolute;
     content: '';

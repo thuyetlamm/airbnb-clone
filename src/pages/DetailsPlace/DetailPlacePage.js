@@ -5,6 +5,8 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import roomsApi from '~/api/roomsApi';
 import Header from '~/components/Header/Header';
 import './DetailPlacePage.scss';
+import moment from 'moment';
+
 import {
   increateBig,
   decreateBig,
@@ -14,15 +16,31 @@ import {
   decreateSmall,
   totalCount,
 } from '~/components/features/Counter/counterSlice';
+
+import CalendarDetail from './component/CalendarInDetailPage/CalendarDetail';
 const qs = require('qs');
+
+const convertDate = (date) => {
+  const result = moment(date).format('l');
+  return result;
+};
+
 DetailPlacePage.propTypes = {};
 function DetailPlacePage() {
   const location = useLocation();
   const navigation = useNavigate();
   const dispatch = useDispatch();
+  const inputRef = useRef();
   const counter = useSelector((state) => state.counter);
   const [placeList, setPlaceList] = useState([]);
+  const [minusDate, setMinusDate] = useState(1);
+  const [coreDate, setCoreDate] = useState();
+  const [totalPrice, setTotalPrice] = useState();
   const [toggleArrow, setToggleArrow] = useState(true);
+  const [openCalendar, setOpenCalendar] = useState(false);
+  const headerRef = useRef();
+  const bookingCardRef = useRef();
+  const headerBooking = useRef();
   const [filters, setFilters] = useState({
     populate: '*',
     pagination: {
@@ -31,22 +49,43 @@ function DetailPlacePage() {
     },
     filters: {
       id: {
-        $in: JSON.parse(localStorage.getItem('place_id')) + 5,
+        $in: JSON.parse(localStorage.getItem('place_id')),
       },
     },
   });
+  useEffect(() => {
+    window.addEventListener('scroll', () => {
+      if (document.documentElement.scrollTop > 488) {
+        headerRef.current.style.display = 'block';
+        bookingCardRef.current.style.top = '120px';
+      } else {
+        headerRef.current.style.display = 'none';
+        bookingCardRef.current.style.top = '80px';
+      }
+      if (document.documentElement.scrollTop > 930) {
+        headerBooking.current.style.display = 'flex';
+      } else {
+        headerBooking.current.style.display = 'none';
+      }
+    });
+  }, []);
   useEffect(() => {
     (async () => {
       try {
         navigation(`?${qs.stringify(filters)}`);
         const response = await roomsApi.getAll(filters);
-        setPlaceList(response);
+        const { attributes } = response[0];
+        setPlaceList(attributes);
       } catch (error) {
         throw new Error();
       }
     })();
   }, [filters]);
-
+  useEffect(() => {
+    const result = placeList.priceOfPlace * minusDate;
+    setCoreDate(result);
+    setTotalPrice(result + 5 + 27);
+  }, [minusDate, placeList]);
   useEffect(() => {
     const total = counter.countBig + counter.countMid;
     dispatch(totalCount(total));
@@ -56,9 +95,21 @@ function DetailPlacePage() {
       setToggleArrow((toggleArrow) => !toggleArrow);
     }
   };
-  const handleClickCard = (e) => {
-    if (e.target === e.currentTarget) {
-      setToggleArrow(true);
+  const handleCloseModal = (e) => {
+    setToggleArrow(true);
+  };
+  const handleOpenCalendar = () => {
+    setOpenCalendar(true);
+  };
+  const handleCloseCalendar = () => {
+    setOpenCalendar(false);
+  };
+  const handleDateChange = (values) => {
+    if (values?.length === 2) {
+      setOpenCalendar(false);
+      const startDate = convertDate(values[0]?._d).slice(0, 2);
+      const endDate = convertDate(values[1]?._d).slice(0, 2);
+      setMinusDate(endDate - startDate);
     }
   };
 
@@ -66,17 +117,50 @@ function DetailPlacePage() {
     <div className="wrapper">
       <div className="detail-page">
         <Helmet>
-          <title>{placeList[0]?.attributes.nameOfPlace}</title>
+          <title>{placeList.nameOfPlace}</title>
         </Helmet>
         <Header />
+
+        <header className="detail-header" ref={headerRef}>
+          <div className="container">
+            <div className="detail-header-container">
+              <ul className="detail-header-nav-list">
+                <li className="detail-header-nav-item">
+                  <a href="#detail-img">Ảnh</a>
+                </li>
+                <li className="detail-header-nav-item">
+                  <a href="#detail-convenient">Tiện nghi</a>
+                </li>
+                <li className="detail-header-nav-item">
+                  <a href="/">Đánh giá</a>
+                </li>
+                <li className="detail-header-nav-item">
+                  <a href="/">Vị trí</a>
+                </li>
+              </ul>
+              <div className="detail-header-booking" ref={headerBooking}>
+                <div className="detail-header-info">
+                  <div className="detail-header-price">${totalPrice} đêm</div>
+                  <span className="detail-header-rating">
+                    <ion-icon name="star"></ion-icon>
+                    {placeList.ratingVote}
+                  </span>
+                </div>
+                <div className="detail-header-button">
+                  <button type="button">Đặt phòng</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
         <div className="detail-container">
           <div className="container">
             <div className="detail-main">
               <div className="detail-main-title">
-                <h2>Ba hao Residence x MAITRI CHIT ROOM</h2>
+                <h2>{placeList.nameOfPlace}</h2>
                 <div className="detail-main-decs">
                   <span>
-                    <ion-icon name="star"></ion-icon> 4,93
+                    <ion-icon name="star"></ion-icon> {placeList.ratingVote}
                   </span>
                   <span>
                     <svg
@@ -104,12 +188,12 @@ function DetailPlacePage() {
                   </span>
                   <span>
                     <Link to={`${location.pathname}/location`}>
-                      Bangkok, Krung Thep Maha Nakhon, Thái Lan
+                      {placeList.country}
                     </Link>
                   </span>
                 </div>
               </div>
-              <div className="detail-main-images">
+              <div className="detail-main-images" id="detail-img">
                 <div className="detail-main-images-item">
                   <img
                     className="layout-img-item"
@@ -147,7 +231,10 @@ function DetailPlacePage() {
                 </div>
               </div>
               <div className="detail-main-info">
-                <div className="detail-main-info-convenient">
+                <div
+                  className="detail-main-info-convenient"
+                  id="detail-convenient"
+                >
                   <div className="detail-main-info-room">
                     <div className="detail-main-info-type">
                       <h2>Phòng riêng tại nhà phố. Chủ nhà Bua</h2>
@@ -216,20 +303,91 @@ function DetailPlacePage() {
                       </div>
                     </div>
                   </div>
+                  <div className="detail-aircover">
+                    <h2 tabIndex="-1" className="detail-aircover-img">
+                      <img
+                        src="https://a0.muscache.com/im/pictures/54e427bb-9cb7-4a81-94cf-78f19156faad.jpg"
+                        alt="air-cover"
+                      />
+                    </h2>
+                    <div>
+                      Mọi đặt phòng đều được bảo vệ miễn phí trong trường hợp
+                      Chủ nhà hủy, thông tin nhà/phòng cho thuê không chính xác
+                      và những vấn đề khác như sự cố trong quá trình nhận phòng.
+                    </div>
+                    <button className="detail-aircover-btn" type="button">
+                      Tìm hiểu thêm
+                    </button>
+                  </div>
+                  <div className="detail-convenient-furniture">
+                    <h1 className="detail-convenient-furniture-title">
+                      Nơi này có những gì
+                    </h1>
+                    <ul className="detail-convenient-furniture-list">
+                      {placeList.convenients?.data.map((item, index) => (
+                        <li
+                          className="detail-convenient-furniture-item"
+                          key={item.id}
+                        >
+                          <span className="detail-convenient-furniture-icon">
+                            <img
+                              src={item.attributes.icon}
+                              alt={item.attributes.title}
+                            />
+                          </span>
+                          <span
+                            style={
+                              item.attributes.isVisible
+                                ? {
+                                    textDecoration: 'none',
+                                  }
+                                : {
+                                    textDecoration: 'line-through',
+                                  }
+                            }
+                          >
+                            {item.attributes.title}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
-                <div
-                  className="detail-main-info-booking"
-                  onClick={handleClickCard}
-                >
-                  <div className="detail-main-booking-card">
+                <div className="detail-main-info-booking">
+                  <div
+                    className="detail-main-booking-card"
+                    ref={bookingCardRef}
+                  >
                     <div className="booking-card-top">
-                      <span className="booking-card-price">$38 đêm</span>
+                      <span className="booking-card-price">
+                        <span style={{ fontWeight: '600', fontSize: '2.2rem' }}>
+                          {' '}
+                          ${placeList.priceOfPlace}
+                        </span>{' '}
+                        đêm
+                      </span>
                       <span className="booking-card-rating">
                         <ion-icon name="star"></ion-icon>
-                        4.9
+                        {placeList.ratingVote}
                       </span>
                     </div>
-                    <input className="booking-card-calendar"></input>
+                    <div className="booking-card-calendar" ref={inputRef}>
+                      <CalendarDetail
+                        openCalendar={openCalendar}
+                        handleDateChange={handleDateChange}
+                        handleOpenCalendar={handleOpenCalendar}
+                        handleCloseCalendar={handleCloseCalendar}
+                      />
+                      {openCalendar && (
+                        <button
+                          type="button"
+                          className="booking-calendar-close-btn"
+                          onClick={handleCloseCalendar}
+                        >
+                          Đóng
+                        </button>
+                      )}
+                    </div>
 
                     <form className="booking-card-form">
                       <button
@@ -271,6 +429,10 @@ function DetailPlacePage() {
                                 <button
                                   type="button"
                                   onClick={() => dispatch(increateBig())}
+                                  className={`${
+                                    counter.totalCount ===
+                                      placeList.capacityOfPlace && 'disabled'
+                                  }`}
                                 >
                                   +
                                 </button>
@@ -295,6 +457,10 @@ function DetailPlacePage() {
                                 <button
                                   type="button"
                                   onClick={() => dispatch(increateMid())}
+                                  className={`${
+                                    counter.totalCount ===
+                                      placeList.capacityOfPlace && 'disabled'
+                                  }`}
                                 >
                                   +
                                 </button>
@@ -325,14 +491,159 @@ function DetailPlacePage() {
                               </div>
                             </li>
                           </ul>
+                          <div className="booking-card-capacity">
+                            {`Chổ ở này tối đa ${placeList.capacityOfPlace} khách , không tính em bé. 
+                            Không được phép mang theo thú cưng.`}
+                          </div>
+                          <div
+                            style={{
+                              display: 'flex',
+                              flex: 1,
+                              justifyContent: 'flex-end',
+                              alignItems: 'flex-end',
+                            }}
+                          >
+                            <button
+                              className="btn-close-counter"
+                              onClick={handleCloseModal}
+                            >
+                              Đóng
+                            </button>
+                          </div>
                         </div>
                       )}
                     </form>
+                    <div style={{ marginTop: '16px' }}>
+                      <button type="button" className="btn-submit-booking">
+                        Đặt phòng
+                      </button>
+                    </div>
+                    <span className="booking-card-subtitle">
+                      <p>Bạn vẫn chưa bị trừ tiền</p>
+                    </span>
+                    <ul className="booking-card-price-list">
+                      <li className="booking-card-price-item">
+                        <span>
+                          ${placeList.priceOfPlace} x {minusDate} đêm
+                        </span>
+                        <span>
+                          ${coreDate ? coreDate : placeList.priceOfPlace}
+                        </span>
+                      </li>
+                      <li className="booking-card-price-item">
+                        <span>Phí vệ sinh</span>
+                        <span>$5</span>
+                      </li>
+                      <li className="booking-card-price-item">
+                        <span>Phí dịch vụ</span>
+                        <span>$27</span>
+                      </li>
+                    </ul>
+                    <div className="booking-card-total">
+                      <span>Tổng trước thuế</span>
+                      <span>${totalPrice}</span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          <footer className="detail-footer">
+            <div className="container">
+              <div className="detail-footer-content">
+                <section className="detail-footer-content-section">
+                  <div className="detail-footer-content-title">
+                    <h3>Hỗ trợ</h3>
+                  </div>
+                  <ul className="detail-footer-content-list">
+                    <li className="detail-footer-content-item">
+                      <a href="/">Trung tâm trợ giúp</a>
+                    </li>
+                    <li className="detail-footer-content-item">
+                      <a href="/">Air Cover</a>
+                    </li>
+                    <li className="detail-footer-content-item">
+                      <a href="/">Thông tin an toàn</a>
+                    </li>
+                    <li className="detail-footer-content-item">
+                      <a href="/">Hỗ trợ người khuyết tật</a>
+                    </li>
+                    <li className="detail-footer-content-item">
+                      <a href="/">Các tùy chọn hủy</a>
+                    </li>
+                    <li className="detail-footer-content-item">
+                      <a href="/">
+                        Biện pháp ứng phó đại dịch COVID cùa chúng tôi
+                      </a>
+                    </li>
+                    <li className="detail-footer-content-item">
+                      <a href="/">Báo cáo lo ngại của hàng xóm</a>
+                    </li>
+                  </ul>
+                </section>
+                <section className="detail-footer-content-section">
+                  <div className="detail-footer-content-title">
+                    <h3>Cộng đồng</h3>
+                  </div>
+                  <ul className="detail-footer-content-list">
+                    <li className="detail-footer-content-item">
+                      <a href="/">Airbnb.org: nhà ở cứu trợ</a>
+                    </li>
+                    <li className="detail-footer-content-item">
+                      <a href="/">Hỗ trợ dân tị nạn Afghanistan</a>
+                    </li>
+                    <li className="detail-footer-content-item">
+                      <a href="/">Chông phân biệt đối xử</a>
+                    </li>
+                  </ul>
+                </section>
+                <section className="detail-footer-content-section">
+                  <div className="detail-footer-content-title">
+                    <h3>Đón tiếp khách</h3>
+                  </div>
+                  <ul className="detail-footer-content-list">
+                    <li className="detail-footer-content-item">
+                      <a href="/">Thử đón tiếp khách</a>
+                    </li>
+                    <li className="detail-footer-content-item">
+                      <a href="/">Air Cover cho chủ nhà</a>
+                    </li>
+                    <li className="detail-footer-content-item">
+                      <a href="/">Xem tài nguyên đón tiếp khách</a>
+                    </li>
+                    <li className="detail-footer-content-item">
+                      <a href="/">Truy cập diễn đàn cộng đồng</a>
+                    </li>
+                    <li className="detail-footer-content-item">
+                      <a href="/">Đón tiếp khách có trách nhiệm</a>
+                    </li>
+                  </ul>
+                </section>
+                <section className="detail-footer-content-section">
+                  <div className="detail-footer-content-title">
+                    <h3>Airbnb</h3>
+                  </div>
+                  <ul className="detail-footer-content-list">
+                    <li className="detail-footer-content-item">
+                      <a href="/">Trang tin tức</a>
+                    </li>
+                    <li className="detail-footer-content-item">
+                      <a href="/">Tìm hiểu các tính năng mới</a>
+                    </li>
+                    <li className="detail-footer-content-item">
+                      <a href="/">Thư ngỏ từ các nhà sáng lập</a>
+                    </li>
+                    <li className="detail-footer-content-item">
+                      <a href="/">Cơ hội nghề nghiệp</a>
+                    </li>
+                    <li className="detail-footer-content-item">
+                      <a href="/">Nhà đầu tư</a>
+                    </li>
+                  </ul>
+                </section>
+              </div>
+            </div>
+          </footer>
         </div>
       </div>
     </div>

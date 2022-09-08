@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect } from 'react';
 import './DefaultHeader.scss';
 import PropTypes from 'prop-types';
 import Item from 'antd/lib/list/Item';
