@@ -5,15 +5,44 @@ import CalendarComp from '~/components/Calendar/Calendar';
 import DefaultHeader from './components/DefaultHeader/DefaultHeader';
 import DetailHeader from './components/DetailHeader/DetailHeader';
 import styles from './Header.module.scss';
-
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Paper from '@material-ui/core/Paper';
+import Popper from '@material-ui/core/Popper';
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuList from '@material-ui/core/MenuList';
+import { makeStyles } from '@material-ui/core/styles';
 const cx = classNames.bind(styles);
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    left: '-4%!important',
+    top: '8px!important',
+  },
+  paper: {
+    width: '200px',
+    height: '220px',
+    backgroundColor: 'white',
+    borderRadius: '16px',
+
+    textAlign: 'center',
+  },
+  item: {
+    fontSize: '14px',
+    margin: '10px 0',
+    fontWeight: 'bold',
+    padding: '10px 20px',
+  },
+}));
 function Header(props) {
   const [showDetailHeader, setShowDetailHeader] = useState({});
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const [idActive, setIdActive] = useState(1);
+  const [open, setOpen] = React.useState(false);
+  const anchorRef = React.useRef(null);
   const searchRef = useRef();
 
+  const classes = useStyles();
   useEffect(() => {
     const timeIds = setTimeout(() => {
       window.onscroll = () => {
@@ -60,6 +89,34 @@ function Header(props) {
     });
     setIdActive(showDetailHeader.id);
   };
+  const handleToggle = () => {
+    setOpen((prevOpen) => !prevOpen);
+  };
+
+  const handleClose = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  function handleListKeyDown(event) {
+    if (event.key === 'Tab') {
+      event.preventDefault();
+      setOpen(false);
+    }
+  }
+
+  // return focus to the button when we transitioned from !open -> open
+  const prevOpen = React.useRef(open);
+  React.useEffect(() => {
+    if (prevOpen.current === true && open === false) {
+      anchorRef.current.focus();
+    }
+
+    prevOpen.current = open;
+  }, [open]);
   return (
     <div className={cx('header')}>
       <div className={cx('container')}>
@@ -118,14 +175,46 @@ function Header(props) {
             <div className={cx('header-options-switch')}>
               <ion-icon name="earth-outline"></ion-icon>
             </div>
-            <div className={cx('header-options-login')}>
+            <button
+              className={cx('header-options-login')}
+              ref={anchorRef}
+              aria-controls={open ? 'menu-list-grow' : undefined}
+              aria-haspopup="true"
+              onClick={handleToggle}
+            >
               <ion-icon name="reorder-three-outline"></ion-icon>
               <img
                 src="https://st3.depositphotos.com/6672868/13701/v/450/depositphotos_137014128-stock-illustration-user-profile-icon.jpg"
                 alt="avatar"
                 className={cx('header-user-avatar')}
               />
-            </div>
+            </button>
+
+            <Popper
+              open={open}
+              anchorEl={anchorRef.current}
+              role={undefined}
+              transition
+              disablePortal
+              className={classes.root}
+            >
+              <Paper className={classes.paper}>
+                <ClickAwayListener onClickAway={handleClose}>
+                  <MenuList
+                    autoFocusItem={open}
+                    id="menu-list-grow"
+                    onKeyDown={handleListKeyDown}
+                  >
+                    <MenuItem onClick={handleClose} className={classes.item}>
+                      Đăng nhập
+                    </MenuItem>
+                    <MenuItem onClick={handleClose} className={classes.item}>
+                      Đăng ký
+                    </MenuItem>
+                  </MenuList>
+                </ClickAwayListener>
+              </Paper>
+            </Popper>
           </div>
         </div>
         <div

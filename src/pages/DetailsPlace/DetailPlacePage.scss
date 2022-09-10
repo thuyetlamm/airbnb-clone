@@ -574,54 +574,6 @@
   animation: fadeIn 0.4s linear;
 }
 
-.detail-footer {
-  background-color: #f7f7f7;
-  min-height: 400px;
-  border-top: 1px solid #ccc;
-  &-content {
-    -webkit-box-direction: normal !important;
-    -webkit-box-orient: horizontal !important;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row !important;
-    padding-top: 48px !important;
-    padding-bottom: 48px !important;
-    margin-left: -12px !important;
-    margin-right: -12px !important;
-
-    &-section {
-      width: 25%;
-      margin: 0 auto;
-    }
-    &-title {
-      margin-bottom: 12px;
-
-      h3 {
-        font-size: 1.4rem;
-        font-weight: bold;
-      }
-    }
-    &-list {
-      width: 100%;
-    }
-    &-item {
-      list-style: none;
-      padding: 6px 0;
-      line-height: 20px;
-      a {
-        text-decoration: none;
-        color: rgb(34, 34, 34);
-        font-size: 14px;
-        line-height: 18px;
-        outline: none;
-        &:hover {
-          text-decoration: underline;
-        }
-      }
-    }
-  }
-}
-
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -637,7 +589,18 @@
   background: rgb(255, 255, 255) !important;
   pointer-events: none;
 }
-@media screen and (min-width: 1440px) {
+@media screen and (min-width: 1441px) {
+  .detail-page .Header_header-container__4tcDx {
+    padding: 0 160px !important;
+  }
+  .detail-main {
+    margin: 0 160px !important;
+  }
+  .detail-header-container {
+    padding: 0 160px !important;
+  }
+}
+@media screen and (min-width: 1201px) and (max-width: 1400px) {
   .detail-page .Header_header-container__4tcDx {
     padding: 0 80px !important;
   }
@@ -647,13 +610,8 @@
   .detail-header-container {
     padding: 0 80px !important;
   }
-  .detail-footer-content {
-    margin: 0 80px !important;
-    width: calc(100% - 160px) !important;
-  }
 }
-
-@media screen and (min-width: 748px) and (max-width: 1439px) {
+@media screen and (min-width: 748px) and (max-width: 1200px) {
   .detail-page .Header_header__OKWO7 {
     margin: 0;
   }
@@ -662,11 +620,5 @@
   }
   .detail-header-container {
     margin: 0;
-  }
-  .detail-footer-content {
-    margin: 0;
-  }
-  .detail-footer-content-section {
-    width: calc(50% - 24px) !important;
   }
 }

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { addToItem, toggleLoading } from './DetailPlaceSlice';
 import roomsApi from '~/api/roomsApi';
 import Header from '~/components/Header/Header';
 import './DetailPlacePage.scss';
@@ -16,8 +17,9 @@ import {
   decreateSmall,
   totalCount,
 } from '~/components/features/Counter/counterSlice';
-
 import CalendarDetail from './component/CalendarInDetailPage/CalendarDetail';
+import FooterDetail from './component/FooterDetail/FooterDetail';
+import Loading from '~/components/LoadingEffect/Loading';
 const qs = require('qs');
 
 const convertDate = (date) => {
@@ -32,15 +34,19 @@ function DetailPlacePage() {
   const dispatch = useDispatch();
   const inputRef = useRef();
   const counter = useSelector((state) => state.counter);
+  const detailPlace = useSelector((state) => state.detailPlace);
   const [placeList, setPlaceList] = useState([]);
   const [minusDate, setMinusDate] = useState(1);
   const [coreDate, setCoreDate] = useState();
   const [totalPrice, setTotalPrice] = useState();
   const [toggleArrow, setToggleArrow] = useState(true);
   const [openCalendar, setOpenCalendar] = useState(false);
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
   const headerRef = useRef();
   const bookingCardRef = useRef();
   const headerBooking = useRef();
+
   const [filters, setFilters] = useState({
     populate: '*',
     pagination: {
@@ -72,6 +78,7 @@ function DetailPlacePage() {
   useEffect(() => {
     (async () => {
       try {
+        dispatch(toggleLoading(true));
         navigation(`?${qs.stringify(filters)}`);
         const response = await roomsApi.getAll(filters);
         const { attributes } = response[0];
@@ -79,6 +86,7 @@ function DetailPlacePage() {
       } catch (error) {
         throw new Error();
       }
+      dispatch(toggleLoading(false));
     })();
   }, [filters]);
   useEffect(() => {
@@ -110,9 +118,20 @@ function DetailPlacePage() {
       const startDate = convertDate(values[0]?._d).slice(0, 2);
       const endDate = convertDate(values[1]?._d).slice(0, 2);
       setMinusDate(endDate - startDate);
+      setStartDate(startDate);
+      setEndDate(convertDate(values[1]?._d));
     }
   };
-
+  const handleSubmit = () => {
+    const action = addToItem({
+      placeList,
+      endDate,
+      startDate,
+      totalPrice,
+      quantity: counter.totalCount,
+    });
+    dispatch(action);
+  };
   return (
     <div className="wrapper">
       <div className="detail-page">
@@ -360,11 +379,19 @@ function DetailPlacePage() {
                   >
                     <div className="booking-card-top">
                       <span className="booking-card-price">
-                        <span style={{ fontWeight: '600', fontSize: '2.2rem' }}>
-                          {' '}
-                          ${placeList.priceOfPlace}
-                        </span>{' '}
-                        đêm
+                        {detailPlace.loading ? (
+                          <Loading />
+                        ) : (
+                          <>
+                            <span
+                              style={{ fontWeight: '600', fontSize: '2.2rem' }}
+                            >
+                              {' '}
+                              ${placeList.priceOfPlace}
+                            </span>{' '}
+                            đêm
+                          </>
+                        )}
                       </span>
                       <span className="booking-card-rating">
                         <ion-icon name="star"></ion-icon>
@@ -389,7 +416,7 @@ function DetailPlacePage() {
                       )}
                     </div>
 
-                    <form className="booking-card-form">
+                    <form className="booking-card-form" id="form-booking">
                       <button
                         className="booking-card-dropdown"
                         type="button"
@@ -514,9 +541,20 @@ function DetailPlacePage() {
                       )}
                     </form>
                     <div style={{ marginTop: '16px' }}>
-                      <button type="button" className="btn-submit-booking">
-                        Đặt phòng
-                      </button>
+                      <Link
+                        to={`/book/stays/${JSON.parse(
+                          localStorage.getItem('place_id')
+                        )}`}
+                      >
+                        <button
+                          type="button"
+                          className="btn-submit-booking"
+                          onClick={handleSubmit}
+                          form="form-booking"
+                        >
+                          Đặt phòng
+                        </button>
+                      </Link>
                     </div>
                     <span className="booking-card-subtitle">
                       <p>Bạn vẫn chưa bị trừ tiền</p>
@@ -548,102 +586,7 @@ function DetailPlacePage() {
               </div>
             </div>
           </div>
-          <footer className="detail-footer">
-            <div className="container">
-              <div className="detail-footer-content">
-                <section className="detail-footer-content-section">
-                  <div className="detail-footer-content-title">
-                    <h3>Hỗ trợ</h3>
-                  </div>
-                  <ul className="detail-footer-content-list">
-                    <li className="detail-footer-content-item">
-                      <a href="/">Trung tâm trợ giúp</a>
-                    </li>
-                    <li className="detail-footer-content-item">
-                      <a href="/">Air Cover</a>
-                    </li>
-                    <li className="detail-footer-content-item">
-                      <a href="/">Thông tin an toàn</a>
-                    </li>
-                    <li className="detail-footer-content-item">
-                      <a href="/">Hỗ trợ người khuyết tật</a>
-                    </li>
-                    <li className="detail-footer-content-item">
-                      <a href="/">Các tùy chọn hủy</a>
-                    </li>
-                    <li className="detail-footer-content-item">
-                      <a href="/">
-                        Biện pháp ứng phó đại dịch COVID cùa chúng tôi
-                      </a>
-                    </li>
-                    <li className="detail-footer-content-item">
-                      <a href="/">Báo cáo lo ngại của hàng xóm</a>
-                    </li>
-                  </ul>
-                </section>
-                <section className="detail-footer-content-section">
-                  <div className="detail-footer-content-title">
-                    <h3>Cộng đồng</h3>
-                  </div>
-                  <ul className="detail-footer-content-list">
-                    <li className="detail-footer-content-item">
-                      <a href="/">Airbnb.org: nhà ở cứu trợ</a>
-                    </li>
-                    <li className="detail-footer-content-item">
-                      <a href="/">Hỗ trợ dân tị nạn Afghanistan</a>
-                    </li>
-                    <li className="detail-footer-content-item">
-                      <a href="/">Chông phân biệt đối xử</a>
-                    </li>
-                  </ul>
-                </section>
-                <section className="detail-footer-content-section">
-                  <div className="detail-footer-content-title">
-                    <h3>Đón tiếp khách</h3>
-                  </div>
-                  <ul className="detail-footer-content-list">
-                    <li className="detail-footer-content-item">
-                      <a href="/">Thử đón tiếp khách</a>
-                    </li>
-                    <li className="detail-footer-content-item">
-                      <a href="/">Air Cover cho chủ nhà</a>
-                    </li>
-                    <li className="detail-footer-content-item">
-                      <a href="/">Xem tài nguyên đón tiếp khách</a>
-                    </li>
-                    <li className="detail-footer-content-item">
-                      <a href="/">Truy cập diễn đàn cộng đồng</a>
-                    </li>
-                    <li className="detail-footer-content-item">
-                      <a href="/">Đón tiếp khách có trách nhiệm</a>
-                    </li>
-                  </ul>
-                </section>
-                <section className="detail-footer-content-section">
-                  <div className="detail-footer-content-title">
-                    <h3>Airbnb</h3>
-                  </div>
-                  <ul className="detail-footer-content-list">
-                    <li className="detail-footer-content-item">
-                      <a href="/">Trang tin tức</a>
-                    </li>
-                    <li className="detail-footer-content-item">
-                      <a href="/">Tìm hiểu các tính năng mới</a>
-                    </li>
-                    <li className="detail-footer-content-item">
-                      <a href="/">Thư ngỏ từ các nhà sáng lập</a>
-                    </li>
-                    <li className="detail-footer-content-item">
-                      <a href="/">Cơ hội nghề nghiệp</a>
-                    </li>
-                    <li className="detail-footer-content-item">
-                      <a href="/">Nhà đầu tư</a>
-                    </li>
-                  </ul>
-                </section>
-              </div>
-            </div>
-          </footer>
+          <FooterDetail />
         </div>
       </div>
     </div>

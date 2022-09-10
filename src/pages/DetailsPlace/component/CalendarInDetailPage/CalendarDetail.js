@@ -5,7 +5,7 @@ import { DatePicker } from 'antd';
 import './CalendarDetail.scss';
 import 'moment/locale/vi';
 import locale from 'antd/es/date-picker/locale/vi_VN';
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+
 import Separate from './Separate';
 CalendarDetail.propTypes = {
   handleDateChange: PropTypes.func,
