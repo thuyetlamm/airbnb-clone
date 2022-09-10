@@ -3,9 +3,7 @@ import React from 'react';
 import Header from '~/components/Header/Header';
 import './DetailPlacePageSkeleton.scss';
 
-DetailPlacePageSkeleton.propTypes = {};
-
-function DetailPlacePageSkeleton(props) {
+function DetailPlacePageSkeleton() {
   return (
     <div className="wrapper">
       <div className="detail-page">
@@ -22,20 +20,16 @@ function DetailPlacePageSkeleton(props) {
                 </span>
               </div>
             </div>
-            <div className="detail-main-images">
-              <div className="left">
-                <Skeleton width="100%" height={380} animation="wave" />
-              </div>
+            <div className="detail-skeleton">
+              <div className="left"></div>
               <div className="right">
                 <span className="span-left">
-                  <Skeleton width="100%" height={190} animation="wave" />
-
-                  <Skeleton width="100%" height={190} animation="wave" />
+                  <div className="skeleton-item"></div>
+                  <div className="skeleton-item"></div>
                 </span>
                 <span className="span-right">
-                  <Skeleton width="100%" height={190} animation="wave" />
-
-                  <Skeleton width="100%" height={190} animation="wave" />
+                  <div className="skeleton-item"></div>
+                  <div className="skeleton-item"></div>
                 </span>
               </div>
             </div>

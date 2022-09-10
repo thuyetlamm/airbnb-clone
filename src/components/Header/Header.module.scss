@@ -54,6 +54,7 @@
     }
   }
   &-login {
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -62,6 +63,7 @@
     margin-left: 9px;
     border: 1px solid #ccc;
     border-radius: 20px;
+    background-color: #fff;
     &:hover {
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
     }
@@ -119,6 +121,7 @@
     transform: translateY(20%);
   }
 }
+
 .overlay {
   &::after {
     content: '';

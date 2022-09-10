@@ -4,6 +4,7 @@ import 'antd/dist/antd.min.css';
 import HostPage from './pages/HostPage/HostPage';
 import { lazy, Suspense } from 'react';
 import DetailPlacePageSkeleton from '~/pages/DetailsPlace/component/DetailPlacePageSkeleton';
+import BookingConfirm from './pages/DetailsPlace/component/BookingConfirm/BookingConfirm';
 const DetailPlacePage = lazy(() =>
   import('./pages/DetailsPlace/DetailPlacePage')
 );
@@ -21,6 +22,7 @@ function App() {
           </Suspense>
         }
       />
+      <Route path="/book/stays/:id/" element={<BookingConfirm />} />
     </Routes>
   );
 }
