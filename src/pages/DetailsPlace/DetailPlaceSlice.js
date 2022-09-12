@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
+import StorageKeys from '~/constants/storage-keys';
 
 const detailPlaceSlice = createSlice({
   name: 'detailPage',
   initialState: {
     loading: true,
-    detailItem: [],
+    detailItem: JSON.parse(localStorage.getItem(StorageKeys.DETAIL_ITEM)) || [],
   },
   reducers: {
     toggleLoading(state, action) {
@@ -13,6 +14,10 @@ const detailPlaceSlice = createSlice({
     addToItem(state, action) {
       const newItem = action.payload;
       state.detailItem.push(newItem);
+      localStorage.setItem(
+        StorageKeys.DETAIL_ITEM,
+        JSON.stringify(state.detailItem)
+      );
     },
   },
 });

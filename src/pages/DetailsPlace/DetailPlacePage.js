@@ -46,7 +46,7 @@ function DetailPlacePage() {
   const headerRef = useRef();
   const bookingCardRef = useRef();
   const headerBooking = useRef();
-
+  const userId = useSelector((state) => state.user.current.id);
   const [filters, setFilters] = useState({
     populate: '*',
     pagination: {
@@ -81,8 +81,9 @@ function DetailPlacePage() {
         dispatch(toggleLoading(true));
         navigation(`?${qs.stringify(filters)}`);
         const response = await roomsApi.getAll(filters);
-        const { attributes } = response[0];
-        setPlaceList(attributes);
+        const { data } = response;
+        const placeItem = data[0].attributes;
+        setPlaceList(placeItem);
       } catch (error) {
         throw new Error();
       }
@@ -124,11 +125,14 @@ function DetailPlacePage() {
   };
   const handleSubmit = () => {
     const action = addToItem({
-      placeList,
-      endDate,
-      startDate,
-      totalPrice,
-      quantity: counter.totalCount,
+      userId,
+      infoPlace: {
+        placeList,
+        endDate,
+        startDate,
+        totalPrice,
+        quantity: counter.totalCount,
+      },
     });
     dispatch(action);
   };

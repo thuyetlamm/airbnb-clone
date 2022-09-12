@@ -30,7 +30,6 @@ function NavigationBar(props) {
     (async () => {
       try {
         const category = await categoryApi.getAll();
-        // const result = randomCategory(category);
         setCategoryList(category);
       } catch (error) {
         throw new Error(error);
@@ -89,11 +88,11 @@ function NavigationBar(props) {
             showEmptySlots={false}
           >
             {!loadingGlobal.loading &&
-              categoryList.map((item) => (
+              categoryList.data?.map((item) => (
                 <Item
                   key={item.id}
                   className={cx({
-                    active: item.id === (activeId || categoryList[0].id),
+                    active: item.id === activeId,
                   })}
                   onClick={() => handleGetIdItem(item.id)}
                 >

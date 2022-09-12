@@ -32,7 +32,7 @@ function PlacesItem(props) {
 
   return (
     <div className="place-wrapper">
-      {placeList.map((item) => (
+      {placeList.data?.map((item) => (
         <div
           className="place-item"
           key={item.id}

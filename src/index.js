@@ -7,6 +7,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import store from '~/app/store';
 import { Provider } from 'react-redux';
+import { SnackbarProvider } from 'notistack';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -15,7 +16,13 @@ root.render(
       <HelmetProvider>
         <Router>
           <Provider store={store}>
-            <App />
+            <SnackbarProvider
+              anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+              autoHideDuration={3000}
+              classes="notistack-container"
+            >
+              <App />
+            </SnackbarProvider>
           </Provider>
         </Router>
       </HelmetProvider>

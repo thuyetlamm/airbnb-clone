@@ -22,11 +22,16 @@ axiosClient.interceptors.response.use(
   function (response) {
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
-    return response.data.data;
+    return response.data;
   },
   function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
+    const { data, status, config } = error.response;
+    if (status === 400 && config.url === '/auth/local/register') {
+      const firstMessage = data.error || {};
+      throw new Error(firstMessage.message);
+    }
     return Promise.reject(error);
   }
 );
