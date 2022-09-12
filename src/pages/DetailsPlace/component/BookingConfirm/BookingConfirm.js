@@ -16,10 +16,16 @@ function BookingConfirm(props) {
   useEffect(() => {
     const params = {
       numberOfAdults: counter.countBig,
-      checkin: detailPlace.detailItem[0]?.startDate,
-      checkout: detailPlace.detailItem[0]?.endDate,
+      checkin:
+        detailPlace.detailItem[detailPlace.detailItem.length - 1].infoPlace
+          ?.startDate,
+      checkout:
+        detailPlace.detailItem[detailPlace.detailItem.length - 1].infoPlace
+          ?.endDate,
       numberOfGuest: counter.totalCount,
-      categoryIds: detailPlace.detailItem[0]?.placeList.categoryIds,
+      categoryIds:
+        detailPlace.detailItem[detailPlace.detailItem.length - 1].infoPlace
+          ?.placeList.categoryIds,
     };
     navigation(
       `/book/stays/${JSON.parse(
