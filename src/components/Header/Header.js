@@ -21,6 +21,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logOut } from '../features/Auth/userSlice';
 import { Badge, IconButton } from '@material-ui/core';
 import { ExitToAppOutlined, ShoppingCart } from '@material-ui/icons';
+import StorageKeys from '~/constants/storage-keys';
 const cx = classNames.bind(styles);
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -59,7 +60,10 @@ function Header(props) {
   const [openModalLogin, setOpenModalLogin] = useState(false);
   const loggedInUser = useSelector((state) => state.user.current);
   const isLoggedIn = !!loggedInUser.id;
-  const placeListBooking = useSelector((state) => state.detailPlace.detailItem);
+  // const placeListBooking = useSelector((state) => state.detailPlace.detailItem);
+  const placeListBooking = JSON.parse(
+    localStorage.getItem(StorageKeys.DETAIL_ITEM)
+  );
   const anchorRef = useRef(null);
   const searchRef = useRef();
   const prevOpen = useRef(open);
