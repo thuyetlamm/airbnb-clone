@@ -1,5 +1,5 @@
 .map-box {
-  margin-top: 80px;
+  margin-top: var(--gap-80);
   height: 636px;
   width: 100%;
   overflow: hidden !important;
@@ -35,7 +35,7 @@
     justify-content: space-between;
     flex: 1;
     padding: 10px;
-    background-color: #fff;
+    background-color: var(--white);
   }
   &-decs {
     line-height: 1;
@@ -76,7 +76,7 @@
 }
 .mapboxgl-popup-close-button {
   font-size: 1.6rem !important;
-  color: #fff !important;
+  color: var(--white) !important;
   width: 24px;
   height: 24px;
   position: absolute;

@@ -5,6 +5,11 @@
   --primary-color: #ff385c;
   --background-size: 1600px;
   --container-size: 1440px;
+  --white: white;
+  --black: black;
+  --gap-80: 80px;
+  --gap-40: 40px;
+  --gap-20: 20px;
 }
 html {
   font-size: 62.5%;
@@ -22,7 +27,7 @@ body {
 }
 .container {
   max-width: var(--background-size);
-  padding: 0 80px;
+  padding: 0 var(--gap-80);
   margin: 0 auto;
 }
 .ant-picker-panel-container {
@@ -353,7 +358,7 @@ body {
 .mapboxgl-popup-content {
   border-radius: 12px !important;
   position: relative;
-  background: #fff;
+  background: var(--white);
   border-radius: 3px;
   box-shadow: 0 1px 2pxrgb (0 0 0/10%);
   padding: 0 !important;
@@ -366,4 +371,10 @@ body {
 }
 .SnackbarItem-message {
   font-size: 1.4rem !important;
+}
+.btn-primary {
+  color: var(--white);
+  outline: none;
+  border: none;
+  background: var(--primary-color);
 }

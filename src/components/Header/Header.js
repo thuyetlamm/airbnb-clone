@@ -143,9 +143,14 @@ function Header(props) {
   const handleCloseModalLogin = () => {
     setOpenModalLogin(false);
   };
-  const handleLogOutUser = () => {
+  const handleLogOutUser = (event) => {
     const action = logOut();
     dispatch(action);
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+
+    setOpen(false);
   };
   // return focus to the button when we transitioned from !open -> open
   useEffect(() => {
@@ -156,10 +161,10 @@ function Header(props) {
   }, [open]);
   const classes = useStyles();
   const countBooking = useMemo(() => {
-    if (placeListBooking.length > 0) {
+    if (placeListBooking?.length > 0) {
       return placeListBooking.filter((item) => item.userId === loggedInUser.id);
     }
-  }, [placeListBooking.length, loggedInUser.id]);
+  }, [placeListBooking?.length, loggedInUser.id]);
   return (
     <div className={cx('header')}>
       <div className={cx('container')}>
@@ -169,10 +174,14 @@ function Header(props) {
           style={
             !showDetailHeader.isActive
               ? {
-                  height: '80px',
+                  height: 'var(--gap-80)',
                   alignItems: 'center',
                 }
-              : { height: '160px', alignItems: 'flex-start', marginTop: '24px' }
+              : {
+                  height: '160px',
+                  alignItems: 'flex-start',
+                  paddingTop: '24px',
+                }
           }
         >
           <Link to="/">
@@ -274,14 +283,14 @@ function Header(props) {
                       id="menu-list-grow"
                       onKeyDown={handleListKeyDown}
                     >
-                      <MenuItem className={classes.item}>
+                      <MenuItem className={classes.item} onClick={handleClose}>
                         My Bookings
                         <IconButton
                           aria-label="show 4 new mails"
                           color="inherit"
                         >
                           <Badge
-                            badgeContent={countBooking.length}
+                            badgeContent={countBooking?.length}
                             color="secondary"
                           >
                             <ShoppingCart className={classes.icon} />
@@ -331,6 +340,26 @@ function Header(props) {
                 </Button>
               </DialogActions>
             </Dialog>
+          </div>
+          <div
+            className={cx('header-search-small')}
+            style={{
+              width: '100%',
+              borderRadius: '32px',
+            }}
+          >
+            <button className={cx('header-search-small-button')}>
+              <span className="header-icon-search">
+                <ion-icon name="search"></ion-icon>
+              </span>
+              <div className="header-search-title">
+                <span>Bạn sẽ đi đâu?</span>
+                <span>Địa điểm bất kỳ . tuần bất kỳ . Thêm khách</span>
+              </div>
+              <span className="header-icon-options">
+                <ion-icon name="options-outline"></ion-icon>
+              </span>
+            </button>
           </div>
         </div>
         <div

@@ -1,8 +1,8 @@
 .navbar-wrapper {
   width: 100%;
   position: sticky;
-  top: 80px;
-  background-color: #fff;
+  top: var(--gap-80);
+  background-color: var(--white);
   transition: all 0.2s linear;
   height: 74px;
   z-index: 29;

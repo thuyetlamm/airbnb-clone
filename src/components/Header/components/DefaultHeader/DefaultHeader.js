@@ -43,31 +43,33 @@ function DefaultHeader(props) {
   }, []);
   return (
     <div className="header-search">
-      {!loadingDefaultHeader.loading &&
-        searchArray.map((item, index) => (
-          <span
-            className="header-search-title"
-            onClick={() => handleClick(item.id)}
-            key={item.id}
-          >
-            {item.title}
-          </span>
-        ))}
-      {loadingDefaultHeader.loading &&
-        Array(3)
-          .fill(0)
-          .map((item, index) => (
-            <Item key={index}>
-              <span className="header-search-title">
-                <Skeleton
-                  variant="text"
-                  animation="wave"
-                  width="74px"
-                  height={24}
-                />
-              </span>
-            </Item>
+      <div>
+        {!loadingDefaultHeader.loading &&
+          searchArray.map((item, index) => (
+            <div
+              className="header-search-title"
+              onClick={() => handleClick(item.id)}
+              key={item.id}
+            >
+              {item.title}
+            </div>
           ))}
+        {loadingDefaultHeader.loading &&
+          Array(3)
+            .fill(0)
+            .map((item, index) => (
+              <Item key={index}>
+                <span className="header-search-title">
+                  <Skeleton
+                    variant="text"
+                    animation="wave"
+                    width="74px"
+                    height={24}
+                  />
+                </span>
+              </Item>
+            ))}
+      </div>
       <div className="header-search-button">
         <span className="header-search-icon">
           <ion-icon name="search-sharp"></ion-icon>

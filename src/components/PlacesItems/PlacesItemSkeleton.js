@@ -22,7 +22,7 @@ function PlacesItem({ length }) {
               <div className="place-item-decs">
                 <Skeleton
                   animation="wave"
-                  width="180px"
+                  width="1var(--gap-80)"
                   height="30px"
                 ></Skeleton>
                 <Skeleton

@@ -392,12 +392,12 @@ function MapBox(props) {
             style={
               isShowPopup
                 ? {
-                    backgroundColor: '#000',
-                    color: '#fff',
+                    backgroundColor: 'var(--black)',
+                    color: 'var(--white)',
                   }
                 : {
-                    backgroundColor: '#fff',
-                    color: '#000',
+                    backgroundColor: 'var(--white)',
+                    color: 'var(--black)',
                   }
             }
           >
