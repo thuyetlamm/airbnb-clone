@@ -11,7 +11,7 @@
   border-radius: 12px !important;
 }
 .MuiFormLabel-root .Mui-focused {
-  color: #000 !important;
+  color: var(--black) !important;
   font-size: 12px !important;
 }
 label {
@@ -20,10 +20,10 @@ label {
   padding: 0 8px !important;
 }
 input.MuiInputBase-input .MuiOutlinedInput-input::selection {
-  background-color: #000 !important;
+  background-color: var(--black) !important;
 }
 .MuiButton-containedPrimary:hover {
-  background-color: #000 !important;
+  background-color: var(--black) !important;
 }
 input:-internal-autofill-selected {
   appearance: menulist-button;
@@ -32,5 +32,5 @@ input:-internal-autofill-selected {
 }
 .MuiButton-label {
   font-size: 12px;
-  // color: #000;
+  // color: var(--black);
 }

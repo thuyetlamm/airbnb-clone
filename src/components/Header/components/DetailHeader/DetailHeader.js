@@ -1,9 +1,8 @@
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './DetailHeader.module.scss';
 import classNames from 'classnames/bind';
-import ClearIcon from '@material-ui/icons/Clear';
-import moment from 'moment';
+import SearchPlace from '../SearchPlace/SearchPlace';
 const cx = classNames.bind(styles);
 function DetailHeader({
   indexActive,
@@ -12,14 +11,14 @@ function DetailHeader({
   handleGetIdActive,
   handleClearDate,
 }) {
-  const [activeSearch, setActiveSearch] = React.useState(indexActive);
-  const [isActiveTab, setActiveTab] = React.useState(0);
+  const [activeSearch, setActiveSearch] = useState(indexActive);
+  const [isActiveTab, setActiveTab] = useState(0);
   const navLinkArr = ['Chỗ ở', 'Trải nghiệm', 'Trải nghiệm trực tuyến'];
   const subNavLinkArr = [
     {
       id: 1,
       title: 'Địa điểm',
-      subTitle: 'Tìm kiếm điểm đến',
+      subTitle: <SearchPlace />,
       styleForElement: {
         padding: '14px 32px',
         width: '326px',
@@ -29,22 +28,17 @@ function DetailHeader({
     {
       id: 2,
       title: 'Nhận phòng',
-      subTitle: 'Thêm ngày',
+
       styleForElement: {
         padding: '18px 0 18px 22px',
       },
-      titleFitler: startDate,
-      icon: <ClearIcon />,
     },
     {
       id: 4,
       title: 'Trả phòng',
-      subTitle: 'Thêm ngày',
       styleForElement: {
         padding: '18px 0 18px  22px',
       },
-      titleFitler: endDate,
-      icon: <ClearIcon />,
     },
     {
       id: 3,
@@ -103,19 +97,9 @@ function DetailHeader({
               onClick={() => handleClickSearchItem(item.id)}
             >
               <h1 className={cx('header-search-title')}>{item.title}</h1>
-              <p className={cx('header-search-subTitle')}>
-                {item.titleFitler
-                  ? moment(item.titleFitler?._d).format('DD/MM')
-                  : item.subTitle}
-                {item.titleFitler && (
-                  <span
-                    className={cx('header-search-clear')}
-                    onClick={handleClearDate}
-                  >
-                    {item.icon}
-                  </span>
-                )}
-              </p>
+              <div className={cx('header-search-subTitle')}>
+                {item?.subTitle}
+              </div>
             </div>
           ))}
           {activeSearch ? (

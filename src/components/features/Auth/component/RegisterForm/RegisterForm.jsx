@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     padding: '8px',
     width: '400px',
-    maxHeight: '480px',
+    maxHeight: '4var(--gap-80)',
     overflow: 'hidden',
     position: 'relative',
   },

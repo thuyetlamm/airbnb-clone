@@ -123,7 +123,7 @@ function HostPage(props) {
                 Mở ra cánh cửa
                 <br></br>đón tiếp khách
               </h1>
-              <button>Thử đón tiếp khách</button>
+              <button className="btn-primary">Thử đón tiếp khách</button>
             </div>
           </div>
           <div className="host-header-right">

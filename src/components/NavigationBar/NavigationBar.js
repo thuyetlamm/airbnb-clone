@@ -11,7 +11,7 @@ const cx = classNames.bind(styles);
 
 function NavigationBar(props) {
   const { ischangeView, onChange } = props;
-  const [activeId, setActiveId] = useState();
+  const [activeId, setActiveId] = useState(1);
   const [categoryList, setCategoryList] = useState([]);
   const [distance, setDistance] = useState(0);
   const dispatch = useDispatch();
@@ -86,6 +86,7 @@ function NavigationBar(props) {
             itemPadding={[0, 18]}
             enableSwipe={false}
             showEmptySlots={false}
+            draggable
           >
             {!loadingGlobal.loading &&
               categoryList.data?.map((item) => (
