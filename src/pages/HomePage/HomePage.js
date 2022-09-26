@@ -1,11 +1,10 @@
 import classNames from 'classnames/bind';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, lazy, Suspense } from 'react';
 import Header from '~/components/Header/Header';
 import NavigationBar from '~/components/NavigationBar/NavigationBar';
 import PlacesList from '~/components/PlacesList/PlacesList';
 import styles from './HomePage.module.scss';
 import Footer from '~/components/Footer/Footer';
-import MapBox from '~/components/MapBox/MapBox';
 import placeListApi from '~/api/placeListApi';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
@@ -13,6 +12,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import FilterPage from '~/components/FilterPageOnMobile/FilterPage';
 import { toggleShowFilterPage } from '~/common/globalSlice';
 import { totalCount } from '~/components/features/Counter/counterSlice';
+import Loading from '~/components/LoadingEffect/Loading';
+const MapBox = lazy(() => import('~/components/MapBox/MapBox'));
 const qs = require('qs');
 
 const cx = classNames.bind(styles);
@@ -133,7 +134,9 @@ function HomePage() {
               onChange={handleClickPlaceItem}
             />
           ) : (
-            <MapBox placeList={placeList} />
+            <Suspense fallback={<Loading />}>
+              <MapBox placeList={placeList} onChange={handleClickPlaceItem} />
+            </Suspense>
           )}
         </div>
         {isChangeView ? (

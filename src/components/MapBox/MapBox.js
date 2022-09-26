@@ -7,8 +7,8 @@ import Slider from 'react-slick';
 import './MapBox.scss';
 import CustomNextArrows from '../NavigationBar/CustomNextArrows';
 import CustomPrevArrows from '../NavigationBar/CustomPrevArrows';
-function MapBox({ placeList }) {
-  const [isShowPopup, setShowPopup] = useState(false);
+function MapBox({ placeList, onChange }) {
+  const [isShowPopup, setShowPopup] = useState(0);
   const [longTitude, setLongitude] = useState();
   const [laTitude, setLatitude] = useState();
 
@@ -29,7 +29,7 @@ function MapBox({ placeList }) {
     nextArrow: <CustomNextArrows />,
     prevArrow: <CustomPrevArrows />,
     mobileFirst: true,
-    draggable: false,
+    draggable: true,
     appendDots: (dots) => <ul>{dots}</ul>,
   };
   const arrImage = [
@@ -332,7 +332,12 @@ function MapBox({ placeList }) {
   //     console.log(long);
   //   });
   // }
-  console.log(placeList.data);
+  const handleShowPopup = (id) => {
+    setShowPopup(id);
+  };
+  const handleClickItem = (id) => {
+    onChange(id);
+  };
   return (
     <div className="map-box">
       <Map
@@ -342,71 +347,79 @@ function MapBox({ placeList }) {
         mapboxAccessToken={process.env.REACT_APP_TOKEN_ACCESS_KEY_MAP}
       >
         {placeList.data.map((placeItem) => (
-          <Marker
-            latitude={placeItem.attributes.latitude}
-            longitude={placeItem.attributes.longtitude}
-            offsetLeft={-20}
-            offsetTop={-30}
-            anchor="bottom"
-            key={placeItem.id}
-          >
-            <span
-              className="marker-place"
-              onClick={() => setShowPopup(true)}
-              style={
-                isShowPopup
-                  ? {
-                      backgroundColor: 'var(--black)',
-                      color: 'var(--white)',
-                    }
-                  : {
-                      backgroundColor: 'var(--white)',
-                      color: 'var(--black)',
-                    }
-              }
+          <>
+            <Marker
+              latitude={placeItem.attributes.latitude}
+              longitude={placeItem.attributes.longtitude}
+              offsetLeft={-20}
+              offsetTop={-30}
+              anchor="bottom"
+              key={placeItem.id}
             >
-              ${placeItem.attributes.priceOfPlace}
-            </span>
-          </Marker>
-        ))}
-        {isShowPopup && (
-          <Popup
-            latitude={10.82752}
-            longitude={106.69552}
-            closeButton={true}
-            closeOnClick={false}
-            onClose={() => setShowPopup(false)}
-            anchor="top"
-            styles={{ maxWidth: '324px' }}
-          >
-            <div className="map-place-item">
-              <Link to="/rooms" target="_blank">
-                <Slider {...settings}>
-                  {arrImage[0].images.map((image) => (
-                    <div className="map-place-item-img" key={image.id}>
-                      <img src={image.url} alt="homes" />
+              <span
+                className="marker-place"
+                onClick={() => handleShowPopup(placeItem.id)}
+                style={
+                  isShowPopup === placeItem.id
+                    ? {
+                        backgroundColor: 'var(--black)',
+                        color: 'var(--white)',
+                      }
+                    : {
+                        backgroundColor: 'var(--white)',
+                        color: 'var(--black)',
+                      }
+                }
+              >
+                ${placeItem.attributes.priceOfPlace}
+              </span>
+            </Marker>
+
+            {isShowPopup === placeItem.id && (
+              <Popup
+                latitude={placeItem.attributes.latitude}
+                longitude={placeItem.attributes.longtitude}
+                closeButton={true}
+                closeOnClick={false}
+                onClose={() => setShowPopup(0)}
+                anchor="top"
+                styles={{ maxWidth: '324px' }}
+              >
+                <div
+                  className="map-place-item"
+                  onClick={() => handleClickItem(placeItem.id)}
+                >
+                  <Link to={`/rooms/${placeItem.id}`} target="_blank">
+                    <Slider {...settings}>
+                      {placeItem.attributes.images_urls.data.map((image) => (
+                        <div className="map-place-item-img" key={image.id}>
+                          <img src={image.attributes.imagesUrl} alt="homes" />
+                        </div>
+                      ))}
+                    </Slider>
+                    <div className="map-place-item-content">
+                      <div className="map-place-item-decs">
+                        <h1 className="map-place-item-name">
+                          {placeItem.attributes.country}
+                        </h1>
+                        <span className="map-place-item-price">
+                          <span>${placeItem.attributes.priceOfPlace}</span> đêm
+                        </span>
+                        <span className="map-place-item-datetime">
+                          Ngày 14 - Ngày 19 tháng 8
+                        </span>
+                      </div>
+                      <div className="map-place-item-rating">
+                        <ion-icon name="star"></ion-icon>
+                        <span>{placeItem.attributes.ratingVote}</span>
+                      </div>
                     </div>
-                  ))}
-                </Slider>
-                <div className="map-place-item-content">
-                  <div className="map-place-item-decs">
-                    <h1 className="map-place-item-name">Dangar IsLand , UC</h1>
-                    <span className="map-place-item-price">
-                      <span>$169</span> đêm
-                    </span>
-                    <span className="map-place-item-datetime">
-                      Ngày 14 - Ngày 19 tháng 8
-                    </span>
-                  </div>
-                  <div className="map-place-item-rating">
-                    <ion-icon name="star"></ion-icon>
-                    <span>4.9</span>
-                  </div>
+                  </Link>
                 </div>
-              </Link>
-            </div>
-          </Popup>
-        )}
+              </Popup>
+            )}
+          </>
+        ))}
       </Map>
     </div>
   );
