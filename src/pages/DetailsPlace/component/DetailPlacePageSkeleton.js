@@ -33,7 +33,7 @@ function DetailPlacePageSkeleton() {
                 </span>
               </div>
             </div>
-            <div className="footer">
+            <div className="footer-loading">
               <div className="info-left">
                 <span>
                   <Skeleton width={400} height={44} animation="wave" />

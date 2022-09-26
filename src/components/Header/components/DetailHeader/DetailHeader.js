@@ -9,7 +9,7 @@ import { setActiveId, toggleShowCalendar } from '~/common/globalSlice';
 import CountFeature from '../CountFeature/CountFeature';
 
 const cx = classNames.bind(styles);
-function DetailHeader({ startDate, endDate = null, handleClickBtnSearch }) {
+function DetailHeader({ handleClickBtnSearch }) {
   const indexActive = useSelector((state) => state.globalState.activeId);
   // const [activeSearch, setActiveSearch] = useState(indexActive);
   const [isActiveTab, setActiveTab] = useState(0);
@@ -119,26 +119,23 @@ function DetailHeader({ startDate, endDate = null, handleClickBtnSearch }) {
               </div>
             </div>
           ))}
-          {indexActive ? (
-            <div
-              className={cx('header-search-buttonn')}
-              onClick={handleClickBtnSearch}
-            >
-              <span className={cx('header-search-icon')}>
-                <ion-icon name="search-sharp"></ion-icon>
-              </span>
-              <span className={cx('header-search-btn-title')}>Tìm kiếm</span>
-            </div>
-          ) : (
-            <div
-              className={cx('header-search-button')}
-              onClick={handleClickBtnSearch}
-            >
-              <span className={cx('header-search-icon')}>
-                <ion-icon name="search-sharp"></ion-icon>
-              </span>
-            </div>
-          )}
+          <div
+            className={cx('header-search-buttonn')}
+            onClick={handleClickBtnSearch}
+          >
+            <span className={cx('header-search-icon')}>
+              <ion-icon name="search-sharp"></ion-icon>
+            </span>
+            <span className={cx('header-search-btn-title')}>Tìm kiếm</span>
+          </div>
+          <div
+            className={cx('header-search-button')}
+            onClick={handleClickBtnSearch}
+          >
+            <span className={cx('header-search-icon')}>
+              <ion-icon name="search-sharp"></ion-icon>
+            </span>
+          </div>
         </div>
       </div>
     </div>

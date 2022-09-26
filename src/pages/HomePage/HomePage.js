@@ -133,7 +133,7 @@ function HomePage() {
               onChange={handleClickPlaceItem}
             />
           ) : (
-            <MapBox />
+            <MapBox placeList={placeList} />
           )}
         </div>
         {isChangeView ? (

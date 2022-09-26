@@ -1,6 +1,7 @@
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import axios from 'axios';
 import React, { useState } from 'react';
+import { useSnackbar } from 'notistack';
 
 const CARD_OPTIONS = {
   iconStyle: 'solid',
@@ -26,6 +27,8 @@ export default function PaymentForm() {
   const [success, setSuccess] = useState(false);
   const stripe = useStripe();
   const elements = useElements();
+  const { enqueueSnackbar } = useSnackbar();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { error, paymentMethod } = await stripe.createPaymentMethod({
@@ -41,14 +44,15 @@ export default function PaymentForm() {
           id,
         });
         if (response.data.success) {
-          console.log('Successful payment');
+          enqueueSnackbar('Successful payment', { variant: 'success' });
+
           setSuccess(true);
         }
       } catch (error) {
         console.log('Error', error);
       }
     } else {
-      console.log(error.message);
+      enqueueSnackbar(error?.message, { variant: 'error' });
     }
   };
 
