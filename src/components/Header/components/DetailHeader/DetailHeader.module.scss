@@ -63,11 +63,11 @@
   margin-top: 4px;
 }
 .header-search-list.active-search {
-  background-color: rgba(0, 210, 211, 0.2);
+  background-color: var(--white);
   border-radius: 32px;
   transition: all 0.2s linear;
   &:hover {
-    background-color: rgba(0, 210, 211, 0.2);
+    background-color: var(--white);
   }
   &:before {
     display: none;
@@ -79,7 +79,7 @@
 .header-search {
   max-width: 850px;
   height: 64px;
-  padding: 10px 0;
+  padding: 30px 0;
   border-radius: 32px;
   border: 1px solid #ccc;
   box-shadow: 2px #ccc;
@@ -89,7 +89,6 @@
   cursor: pointer;
   align-items: center;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-
   &-button {
     position: absolute;
     right: 8px;

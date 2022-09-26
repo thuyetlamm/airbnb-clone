@@ -1,16 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { DatePicker } from 'antd';
-import './CalendarDetail.scss';
+import './CalendarOnMobile.scss';
 import 'moment/locale/vi';
 import locale from 'antd/es/date-picker/locale/vi_VN';
 
-import Separate from './Separate';
-CalendarDetail.propTypes = {
-  handleDateChange: PropTypes.func,
-};
-
-function CalendarDetail({
+function CalendarOnMobile({
   placement,
   separator,
   openCalendar = false,
@@ -19,8 +14,18 @@ function CalendarDetail({
   handleCloseCalendar,
 }) {
   const { RangePicker } = DatePicker;
+  useEffect(() => {
+    let calendar = document.getElementById('calendar-mobile');
+    let container = document.querySelector(
+      '#calendar-mobile .ant-picker-panel-container'
+    );
+    const width = calendar.offsetWidth + 32;
+    if (container) {
+      container.style.setProperty('width', `${width}px`, 'important');
+    }
+  });
   return (
-    <div id="calendar-booking">
+    <div id="calendar-mobile">
       <RangePicker
         open={openCalendar}
         suffixIcon={''}
@@ -32,10 +37,10 @@ function CalendarDetail({
         onChange={handleDateChange}
         onFocus={handleOpenCalendar}
         onBlur={handleCloseCalendar}
-        getPopupContainer={() => document.getElementById('calendar-booking')}
+        getPopupContainer={() => document.getElementById('calendar-mobile')}
       />
     </div>
   );
 }
 
-export default React.memo(CalendarDetail);
+export default React.memo(CalendarOnMobile);

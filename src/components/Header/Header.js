@@ -22,6 +22,15 @@ import { logOut } from '../features/Auth/userSlice';
 import { Badge, IconButton } from '@material-ui/core';
 import { ExitToAppOutlined, ShoppingCart } from '@material-ui/icons';
 import StorageKeys from '~/constants/storage-keys';
+import {
+  setActiveId,
+  toggleShowCalendar,
+  toggleShowFilterPage,
+} from '~/common/globalSlice';
+import Tippy from '@tippyjs/react/headless';
+import 'tippy.js/dist/tippy.css';
+import { Wrapper as WrapperFilterPage } from '~/components/Popper';
+import FilterPage from '../FilterPageOnMobile/FilterPage';
 const cx = classNames.bind(styles);
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,18 +58,22 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '20px',
   },
 }));
-function Header(props) {
+function Header({ handleClickBtnSearch }) {
   const dispatch = useDispatch();
   const [showDetailHeader, setShowDetailHeader] = useState({});
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
-  const [idActive, setIdActive] = useState(1);
   const [open, setOpen] = useState(false);
+  const [openFilterPage, setOpenFilterPage] = useState(false);
   const [openModalRegister, setOpenModalRegister] = useState(false);
   const [openModalLogin, setOpenModalLogin] = useState(false);
   const loggedInUser = useSelector((state) => state.user.current);
   const isLoggedIn = !!loggedInUser.id;
   // const placeListBooking = useSelector((state) => state.detailPlace.detailItem);
+  const indexActive = useSelector((state) => state.globalState.activeId);
+  const isShowCalendar = useSelector(
+    (state) => state.globalState.isShowCalendar
+  );
   const placeListBooking = JSON.parse(
     localStorage.getItem(StorageKeys.DETAIL_ITEM)
   );
@@ -83,35 +96,11 @@ function Header(props) {
   const hanldeShowDetailHeader = (values) => {
     setShowDetailHeader(values);
   };
-  const handleChangeCalendar = (values) => {
-    if (values[1]) {
-      setEndDate(values[1]);
-    } else {
-      setStartDate(values[0]);
-    }
-    if (!values[0]) {
-      setStartDate(values[1]);
-      setEndDate(null);
-    }
-    if (values[0] && values[1]) {
-      setStartDate(values[0]);
-      setEndDate(values[1]);
-    }
-  };
 
-  const handleGetIdActive = (id) => {
-    setIdActive(id);
-  };
-  const handleClearDate = () => {
-    setStartDate('');
-    setEndDate('');
-  };
   const handleClickOverlay = () => {
     setShowDetailHeader({
-      ...showDetailHeader,
       isActive: false,
     });
-    setIdActive(showDetailHeader.id);
   };
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -152,6 +141,25 @@ function Header(props) {
 
     setOpen(false);
   };
+  const handleOpenCalendar = () => {
+    dispatch(toggleShowCalendar(true));
+  };
+  const handleOnBlurCalendar = () => {
+    dispatch(toggleShowCalendar(false));
+  };
+  const handleDateChange = (values) => {
+    if (values.length === 2) {
+      dispatch(toggleShowCalendar(false));
+    }
+  };
+  const handleCalendarChange = (values) => {
+    if (values[0] && !values[1]) {
+      dispatch(setActiveId(4));
+    }
+  };
+  const handleShowFilterPage = () => {
+    setOpenFilterPage(true);
+  };
   // return focus to the button when we transitioned from !open -> open
   useEffect(() => {
     if (prevOpen.current === true && open === false) {
@@ -174,7 +182,7 @@ function Header(props) {
           style={
             !showDetailHeader.isActive
               ? {
-                  height: 'var(--gap-80)',
+                  height: '80px',
                   alignItems: 'center',
                 }
               : {
@@ -205,15 +213,18 @@ function Header(props) {
             ) : (
               <>
                 <DetailHeader
-                  indexActive={showDetailHeader.id}
                   startDate={startDate}
                   endDate={endDate}
-                  handleGetIdActive={handleGetIdActive}
-                  handleClearDate={handleClearDate}
+                  handleClickBtnSearch={handleClickBtnSearch}
                 />
                 <CalendarComp
-                  isShowCalendar={[2, 4].some((x) => x === idActive)}
-                  handleChangeCalendar={handleChangeCalendar}
+                  isShowCalendar={
+                    [2, 4].some((x) => x === indexActive) && isShowCalendar
+                  }
+                  handleOpenCalendar={handleOpenCalendar}
+                  handleOnBlurCalendar={handleOnBlurCalendar}
+                  handleDateChange={handleDateChange}
+                  handleCalendarChange={handleCalendarChange}
                 />
               </>
             )}
@@ -341,12 +352,14 @@ function Header(props) {
               </DialogActions>
             </Dialog>
           </div>
+
           <div
             className={cx('header-search-small')}
             style={{
               width: '100%',
               borderRadius: '32px',
             }}
+            onClick={() => dispatch(toggleShowFilterPage(true))}
           >
             <button className={cx('header-search-small-button')}>
               <span className="header-icon-search">

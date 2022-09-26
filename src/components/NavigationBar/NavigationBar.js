@@ -29,6 +29,7 @@ function NavigationBar(props) {
   useEffect(() => {
     (async () => {
       try {
+        dispatch(toggleLoading(true));
         const category = await categoryApi.getAll();
         setCategoryList(category);
       } catch (error) {
@@ -37,7 +38,7 @@ function NavigationBar(props) {
     })();
     const timeIds = setTimeout(() => {
       dispatch(toggleLoading(false));
-    }, 1200);
+    }, 1300);
     return () => {
       clearTimeout(timeIds);
     };
@@ -46,7 +47,7 @@ function NavigationBar(props) {
   useEffect(() => {
     window.addEventListener('scroll', (e) => {
       if (document.documentElement.scrollTop === 0) {
-        navBarRef.current.style.paddingTop = '20px';
+        navBarRef.current.style.paddingTop = '30px';
         navBarRef.current.style.transition = 'all 0.1s linear';
         navBarWrapperRef.current.style.boxShadow = '';
       } else {
