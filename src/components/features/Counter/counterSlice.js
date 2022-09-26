@@ -6,6 +6,7 @@ const counterSlice = createSlice({
     countBig: 1,
     countMid: 0,
     countSmall: 0,
+    countAnimal: 0,
     totalCount: 0,
   },
   reducers: {
@@ -51,6 +52,20 @@ const counterSlice = createSlice({
       };
       return newState;
     },
+    increateAnimal(state, action) {
+      const newState = {
+        ...state,
+        countAnimal: state.countAnimal + 1,
+      };
+      return newState;
+    },
+    decreateAnimal(state, action) {
+      const newState = {
+        ...state,
+        countAnimal: state.countAnimal - 1,
+      };
+      return newState;
+    },
     totalCount(state, action) {
       const newState = {
         ...state,
@@ -65,8 +80,10 @@ const { actions, reducer } = counterSlice;
 export const {
   increateBig,
   decreateBig,
-  increateSmall,
   decreateSmall,
+  increateSmall,
+  increateAnimal,
+  decreateAnimal,
   increateMid,
   decreateMid,
   totalCount,

@@ -9,6 +9,10 @@ import MapBox from '~/components/MapBox/MapBox';
 import placeListApi from '~/api/placeListApi';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import { useDispatch, useSelector } from 'react-redux';
+import FilterPage from '~/components/FilterPageOnMobile/FilterPage';
+import { toggleShowFilterPage } from '~/common/globalSlice';
+import { totalCount } from '~/components/features/Counter/counterSlice';
 const qs = require('qs');
 
 const cx = classNames.bind(styles);
@@ -18,7 +22,13 @@ function HomePage() {
   const [isChangeView, setChangeView] = useState(true);
   const [loadingPlaceList, setLoadingPlaceList] = useState(true);
   const [placeList, setPlaceList] = useState([]);
+  const counter = useSelector((state) => state.counter);
+  const isShowFilterPage = useSelector(
+    (state) => state.globalState.isShowFilterPage
+  );
+  const globalState = useSelector((state) => state.globalState);
   const navigation = useNavigate();
+  const dispatch = useDispatch();
   const [filters, setFilters] = useState({
     populate: '*',
     pagination: {
@@ -28,6 +38,13 @@ function HomePage() {
     filters: {
       categoryIds: {
         $in: 1,
+      },
+
+      capacityOfPlace: {
+        $gte: 2,
+      },
+      country: {
+        $notContainsi: 'hehe',
       },
     },
   });
@@ -55,6 +72,7 @@ function HomePage() {
       const newFilters = {
         ...filters,
         filters: {
+          ...filters.filters,
           categoryIds: {
             $in: newCategoryIds,
           },
@@ -68,6 +86,30 @@ function HomePage() {
   const handleClickPlaceItem = (newPlaceIds) => {
     localStorage.setItem('place_id', JSON.stringify(newPlaceIds));
   };
+  const handleClickBtnSearch = useCallback(() => {
+    const total = counter.countBig + counter.countMid;
+    dispatch(toggleShowFilterPage(false));
+    const newFilters = {
+      ...filters,
+      filters: {
+        ...filters.filters,
+        capacityOfPlace: {
+          $gte: total,
+        },
+        country: {
+          $notContainsi: globalState.filterCollection.place || 'place',
+        },
+      },
+    };
+    setFilters(newFilters);
+    navigation(`/placelists/?${qs.stringify(newFilters)}`);
+  }, [
+    filters,
+    counter.countBig,
+    counter.countMid,
+    globalState.filterCollection.place,
+  ]);
+
   return (
     <div
       className={cx('wrapper', {
@@ -77,42 +119,50 @@ function HomePage() {
       <Helmet>
         <title>Nhà nghỉ dưỡng & Căn hộ cao cấp cho thuê - Airbnb </title>
       </Helmet>
-      <Header />
-      <div className={cx('content-container')}>
-        <NavigationBar
-          isChangeView={isChangeView}
-          onChange={handleChangeTabCategory}
-        />
-        {isChangeView ? (
-          <PlacesList
-            loadingPlaceList={loadingPlaceList}
-            placeList={placeList}
-            onChange={handleClickPlaceItem}
+      <>
+        <Header handleClickBtnSearch={handleClickBtnSearch} />
+        <div className={cx('content-container')}>
+          <NavigationBar
+            isChangeView={isChangeView}
+            onChange={handleChangeTabCategory}
           />
+          {isChangeView ? (
+            <PlacesList
+              loadingPlaceList={loadingPlaceList}
+              placeList={placeList}
+              onChange={handleClickPlaceItem}
+            />
+          ) : (
+            <MapBox />
+          )}
+        </div>
+        {isChangeView ? (
+          <>
+            <Footer />{' '}
+            <button
+              className={cx('footer-switch-btn')}
+              onClick={handleChangeView}
+            >
+              <span>Hiện bản đồ</span>
+              <span>
+                <ion-icon name="map-outline"></ion-icon>
+              </span>
+            </button>{' '}
+          </>
         ) : (
-          <MapBox />
-        )}
-      </div>
-      {isChangeView ? (
-        <>
-          <Footer />{' '}
           <button
             className={cx('footer-switch-btn')}
             onClick={handleChangeView}
           >
-            <span>Hiện bản đồ</span>
+            <span>Hiển thị danh sách</span>
             <span>
-              <ion-icon name="map-outline"></ion-icon>
+              <ion-icon name="list-outline"></ion-icon>
             </span>
-          </button>{' '}
-        </>
-      ) : (
-        <button className={cx('footer-switch-btn')} onClick={handleChangeView}>
-          <span>Hiển thị danh sách</span>
-          <span>
-            <ion-icon name="list-outline"></ion-icon>
-          </span>
-        </button>
+          </button>
+        )}
+      </>
+      {isShowFilterPage && (
+        <FilterPage handleClickBtnSearch={handleClickBtnSearch} />
       )}
     </div>
   );

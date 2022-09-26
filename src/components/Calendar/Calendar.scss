@@ -1,0 +1,35 @@
+#calendar-header > div:first-child {
+  width: 276px !important;
+  height: 20px;
+  position: absolute !important;
+  z-index: 30;
+  bottom: -114px;
+  left: -90px;
+  outline: none !important;
+  border: none !important;
+  background-color: transparent !important;
+  pointer-events: none !important;
+
+  &.ant-picker-panel-container .ant-picker-panels {
+    display: inline-flex;
+    flex-wrap: nowrap;
+    direction: ltr;
+    padding: 40px !important;
+  }
+  &.ant-picker-range-wrapper {
+    margin-top: var(--gap-80);
+  }
+}
+#calendar-header > div:last-child {
+  & > div:first-child {
+    & > div:first-child {
+      left: 0 !important;
+    }
+  }
+}
+#calendar-header > div {
+  position: relative !important;
+}
+.ant-picker-dropdown-placement-bottomLeft {
+  left: 47% !important;
+}

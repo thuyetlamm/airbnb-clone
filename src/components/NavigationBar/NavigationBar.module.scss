@@ -4,7 +4,7 @@
   top: var(--gap-80);
   background-color: var(--white);
   transition: all 0.2s linear;
-  height: 74px;
+  height: 86px;
   z-index: 29;
 }
 .navbar-container {
@@ -12,6 +12,7 @@
   justify-content: space-between;
   align-items: center;
   z-index: 22;
+  min-height: 80px;
 }
 .navbar-item {
   &-img img {
@@ -46,7 +47,4 @@
     z-index: 10;
     transition: all 0.2s linear;
   }
-}
-.category {
-  padding-top: 0 !important;
 }

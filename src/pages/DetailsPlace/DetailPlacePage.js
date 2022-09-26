@@ -20,6 +20,7 @@ import {
 import CalendarDetail from './component/CalendarInDetailPage/CalendarDetail';
 import FooterDetail from './component/FooterDetail/FooterDetail';
 import Loading from '~/components/LoadingEffect/Loading';
+import Separate from './component/CalendarInDetailPage/Separate';
 const qs = require('qs');
 
 const convertDate = (date) => {
@@ -407,6 +408,8 @@ function DetailPlacePage() {
                     </div>
                     <div className="booking-card-calendar" ref={inputRef}>
                       <CalendarDetail
+                        separator={<Separate />}
+                        placement="bottomLeft"
                         openCalendar={openCalendar}
                         handleDateChange={handleDateChange}
                         handleOpenCalendar={handleOpenCalendar}

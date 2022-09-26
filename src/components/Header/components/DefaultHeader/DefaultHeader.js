@@ -5,6 +5,7 @@ import Item from 'antd/lib/list/Item';
 import Skeleton from '@mui/material/Skeleton';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleLoading } from '~/components/NavigationBar/categorySlice';
+import { setActiveId, toggleShowCalendar } from '~/common/globalSlice';
 
 DefaultHeader.prototype = {
   hanldeShowDetailHeader: PropTypes.func,
@@ -14,11 +15,12 @@ function DefaultHeader(props) {
   const dispatch = useDispatch();
   const loadingDefaultHeader = useSelector((state) => state.category);
   const handleClick = (id) => {
-    const newArray = {
-      id,
-      isActive: true,
-    };
+    dispatch(setActiveId(id));
+    dispatch(toggleShowCalendar(false));
     if (hanldeShowDetailHeader) {
+      const newArray = {
+        isActive: true,
+      };
       hanldeShowDetailHeader(newArray);
     }
   };
@@ -51,24 +53,52 @@ function DefaultHeader(props) {
               onClick={() => handleClick(item.id)}
               key={item.id}
             >
-              {item.title}
+              <div className="search-title-wrap">{item.title}</div>
             </div>
           ))}
-        {loadingDefaultHeader.loading &&
-          Array(3)
-            .fill(0)
-            .map((item, index) => (
-              <Item key={index}>
-                <span className="header-search-title">
+        {loadingDefaultHeader.loading && (
+          // Array(3)
+          //   .fill(0)
+          //   .map((item, index) => (
+          <>
+            <Item>
+              <div className="header-search-title">
+                <div className="search-title-wrap">
                   <Skeleton
                     variant="text"
                     animation="wave"
-                    width="74px"
-                    height={24}
+                    width="80px"
+                    height={30}
                   />
-                </span>
-              </Item>
-            ))}
+                </div>
+              </div>
+            </Item>
+            <Item>
+              <div className="header-search-title">
+                <div className="search-title-wrap">
+                  <Skeleton
+                    variant="text"
+                    animation="wave"
+                    width="80px"
+                    height={30}
+                  />
+                </div>
+              </div>
+            </Item>
+            <Item>
+              <div style={{ paddingLeft: '14px' }}>
+                <div className="search-title-wrap">
+                  <Skeleton
+                    variant="text"
+                    animation="wave"
+                    width="80px"
+                    height={30}
+                  />
+                </div>
+              </div>
+            </Item>
+          </>
+        )}
       </div>
       <div className="header-search-button">
         <span className="header-search-icon">
