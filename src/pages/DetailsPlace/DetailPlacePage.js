@@ -21,6 +21,7 @@ import CalendarDetail from './component/CalendarInDetailPage/CalendarDetail';
 import FooterDetail from './component/FooterDetail/FooterDetail';
 import Loading from '~/components/LoadingEffect/Loading';
 import Separate from './component/CalendarInDetailPage/Separate';
+import { useConvertDate } from '~/hooks';
 const qs = require('qs');
 
 const convertDate = (date) => {
@@ -44,6 +45,8 @@ function DetailPlacePage() {
   const [openCalendar, setOpenCalendar] = useState(false);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [start, end] = useConvertDate(startDate, endDate);
+
   const headerRef = useRef();
   const bookingCardRef = useRef();
   const headerBooking = useRef();
@@ -117,11 +120,13 @@ function DetailPlacePage() {
   const handleDateChange = (values) => {
     if (values?.length === 2) {
       setOpenCalendar(false);
-      const startDate = convertDate(values[0]?._d).slice(0, 2);
-      const endDate = convertDate(values[1]?._d).slice(0, 2);
-      setMinusDate(endDate - startDate);
+      const startDate = convertDate(values[0]?._d);
+      const endDate = convertDate(values[1]?._d);
+      const SECOND_IN_1_DAY = 86400000;
+      const subStract = values[1].diff(values[0]) / SECOND_IN_1_DAY;
       setStartDate(startDate);
-      setEndDate(convertDate(values[1]?._d));
+      setEndDate(endDate);
+      setMinusDate(subStract);
     }
   };
   const handleSubmit = () => {
@@ -130,6 +135,7 @@ function DetailPlacePage() {
       infoPlace: {
         placeList,
         endDate,
+        minusDate,
         startDate,
         totalPrice,
         quantity: counter.totalCount,

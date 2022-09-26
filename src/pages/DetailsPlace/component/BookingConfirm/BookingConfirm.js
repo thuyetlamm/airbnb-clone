@@ -17,22 +17,18 @@ BookingConfirm.propTypes = {};
 function BookingConfirm(props) {
   const counter = useSelector((state) => state.counter);
   const detailPlace = useSelector((state) => state.detailPlace);
+  const detailItem = detailPlace.detailItem;
   const navigation = useNavigate();
   const loggedIn = useSelector((state) => state.user.current);
   const isLoggedUser = !!loggedIn.id;
   useEffect(() => {
     const params = {
       numberOfAdults: counter.countBig,
-      checkin:
-        detailPlace.detailItem[detailPlace.detailItem.length - 1].infoPlace
-          ?.startDate,
-      checkout:
-        detailPlace.detailItem[detailPlace.detailItem.length - 1].infoPlace
-          ?.endDate,
+      checkin: detailItem[detailItem.length - 1].infoPlace?.startDate,
+      checkout: detailItem[detailItem.length - 1].infoPlace?.endDate,
       numberOfGuest: counter.totalCount,
       categoryIds:
-        detailPlace.detailItem[detailPlace.detailItem.length - 1].infoPlace
-          ?.placeList.categoryIds,
+        detailItem[detailItem.length - 1].infoPlace?.placeList.categoryIds,
     };
     navigation(
       `/book/stays/${JSON.parse(
@@ -93,7 +89,8 @@ function BookingConfirm(props) {
                     <div>
                       <span className="booking-main-info-title">Ngày</span>
                       <span className="booking-main-info-decs">
-                        Ngày 20 - Ngày 26 tháng 9
+                        {detailItem[detailItem.length - 1].infoPlace.startDate}{' '}
+                        - {detailItem[detailItem.length - 1].infoPlace.endDate}
                       </span>
                     </div>
                     <span className="booking-main-edit">Chỉnh sửa</span>
@@ -101,7 +98,10 @@ function BookingConfirm(props) {
                   <div className="booking-main-date">
                     <div>
                       <span className="booking-main-info-title">Khách</span>
-                      <span className="booking-main-info-desc">1 khách</span>
+                      <span className="booking-main-info-desc">
+                        {detailItem[detailItem.length - 1].infoPlace.quantity}{' '}
+                        khách
+                      </span>
                     </div>
                     <span className="booking-main-edit">Chỉnh sửa</span>
                   </div>
@@ -164,7 +164,21 @@ function BookingConfirm(props) {
                       </div>
                       <div>
                         <div>
-                          <span>$28,00</span> x <span>8 đêm</span>
+                          <span>
+                            $
+                            {
+                              detailItem[detailItem.length - 1].infoPlace
+                                .placeList.priceOfPlace
+                            }
+                          </span>{' '}
+                          x{' '}
+                          <span>
+                            {
+                              detailItem[detailItem.length - 1].infoPlace
+                                .minusDate
+                            }{' '}
+                            đêm
+                          </span>
                         </div>
                         <span>$208,00</span>
                       </div>

@@ -1,8 +1,8 @@
 .map-box {
   margin-top: var(--gap-80);
-  height: 636px;
+  height: 620px;
   width: 100%;
-  overflow: hidden !important;
+  overflow-y: hidden !important;
 }
 .marker-place {
   font-size: 1.4rem;
@@ -43,11 +43,13 @@
   &-name {
     font-size: 1.4rem;
     font-weight: bold;
+    margin-bottom: 8px;
   }
 
   &-datetime {
     font-size: 1.4rem;
     color: #888;
+    margin-top: 8px;
   }
   &-price {
     font-size: 1.4rem;

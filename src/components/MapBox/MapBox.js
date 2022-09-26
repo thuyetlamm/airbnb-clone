@@ -7,7 +7,7 @@ import Slider from 'react-slick';
 import './MapBox.scss';
 import CustomNextArrows from '../NavigationBar/CustomNextArrows';
 import CustomPrevArrows from '../NavigationBar/CustomPrevArrows';
-function MapBox(props) {
+function MapBox({ placeList }) {
   const [isShowPopup, setShowPopup] = useState(false);
   const [longTitude, setLongitude] = useState();
   const [laTitude, setLatitude] = useState();
@@ -332,6 +332,7 @@ function MapBox(props) {
   //     console.log(long);
   //   });
   // }
+  console.log(placeList.data);
   return (
     <div className="map-box">
       <Map
@@ -340,6 +341,34 @@ function MapBox(props) {
         onViewportChange={(viewport) => setViewport(viewport)}
         mapboxAccessToken={process.env.REACT_APP_TOKEN_ACCESS_KEY_MAP}
       >
+        {placeList.data.map((placeItem) => (
+          <Marker
+            latitude={placeItem.attributes.latitude}
+            longitude={placeItem.attributes.longtitude}
+            offsetLeft={-20}
+            offsetTop={-30}
+            anchor="bottom"
+            key={placeItem.id}
+          >
+            <span
+              className="marker-place"
+              onClick={() => setShowPopup(true)}
+              style={
+                isShowPopup
+                  ? {
+                      backgroundColor: 'var(--black)',
+                      color: 'var(--white)',
+                    }
+                  : {
+                      backgroundColor: 'var(--white)',
+                      color: 'var(--black)',
+                    }
+              }
+            >
+              ${placeItem.attributes.priceOfPlace}
+            </span>
+          </Marker>
+        ))}
         {isShowPopup && (
           <Popup
             latitude={10.82752}
@@ -378,33 +407,6 @@ function MapBox(props) {
             </div>
           </Popup>
         )}
-
-        <Marker
-          latitude={10.82752}
-          longitude={106.69552}
-          offsetLeft={-20}
-          offsetTop={-30}
-          anchor="bottom"
-        >
-          <span
-            className="marker-place"
-            onClick={() => setShowPopup(true)}
-            style={
-              isShowPopup
-                ? {
-                    backgroundColor: 'var(--black)',
-                    color: 'var(--white)',
-                  }
-                : {
-                    backgroundColor: 'var(--white)',
-                    color: 'var(--black)',
-                  }
-            }
-          >
-            $169
-          </span>
-        </Marker>
-        <GeolocateControl></GeolocateControl>
       </Map>
     </div>
   );

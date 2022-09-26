@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import styles from './Footer.module.scss';
+import './Footer.scss';
 import Skeleton from '@mui/material/Skeleton';
+import {
+  AirPlaneIcon,
+  ChatBoxIcon,
+  HeartIcon,
+  PeopleIcon,
+  SearchIcon,
+} from '~/assets/IconImages/Icon';
 
-import classNames from 'classnames/bind';
-const cx = classNames.bind(styles);
 Footer.propTypes = {};
 
 function Footer(props) {
   const [loadingFooter, setloadingFooter] = useState(true);
+  const [active, setActive] = useState(1);
   useEffect(() => {
     const timeIds = setInterval(() => {
       setloadingFooter(false);
@@ -16,34 +22,61 @@ function Footer(props) {
       clearInterval(timeIds);
     };
   }, []);
+  const arrFooter = [
+    {
+      id: 1,
+      title: 'Khám phá',
+      icon: <SearchIcon />,
+    },
+    {
+      id: 2,
+      title: 'Yêu thích',
+      icon: <HeartIcon />,
+    },
+    {
+      id: 3,
+      title: 'Chuyến đi',
+      icon: <AirPlaneIcon />,
+    },
+    {
+      id: 4,
+      title: 'Hộp thư',
+      icon: <ChatBoxIcon />,
+    },
+    {
+      id: 5,
+      title: 'Hồ sơ',
+      icon: <PeopleIcon />,
+    },
+  ];
+  const handleClick = (id) => {
+    setActive(id);
+  };
   return (
     <div>
       {!loadingFooter && (
-        <div className={cx('footer')}>
-          <div className={cx('footer-container')}>
-            <div className={cx('footer-left')}>
+        <div className="footer">
+          <div className="footer-container">
+            <div className="footer-left">
               <span>© 2022 Airbnb, Inc.</span>
-              <ul className={cx('footer-policy')}>
+              <ul className="footer-policy">
                 <li>Quyền riềng tư</li>
                 <li>Điều khoản</li>
                 <li>Sơ đồ trang web</li>
               </ul>
             </div>
-            <div className={cx('footer-right')}>
-              <button
-                type="button"
-                className={cx('footer-btn-languages', 'btn')}
-              >
+            <div className="footer-right">
+              <button type="button" className="footer-btn-languages btn">
                 <span>
                   <ion-icon name="earth-outline"></ion-icon>
                 </span>
                 <span>Tiếng Việt (VN)</span>
               </button>
-              <button type="button" className={cx('footer-btn-money', 'btn')}>
+              <button type="button" className="footer-btn-money btn">
                 <span>$</span>
                 <span>USD</span>
               </button>
-              <button type="button" className={cx('footer-btn-help', 'btn')}>
+              <button type="button" className="footer-btn-help btn">
                 <span>Hỗ trợ tài nguyên</span>
                 <span>
                   <ion-icon name="chevron-up-outline"></ion-icon>
@@ -51,15 +84,34 @@ function Footer(props) {
               </button>
             </div>
           </div>
+          <div class="footer-mobile">
+            {arrFooter.map((item) => (
+              <a
+                href="#"
+                key={item.id}
+                onClick={() => handleClick(item.id)}
+                className=""
+              >
+                <div className="footer-item">
+                  <span
+                    className={`footer-icon ${active === item.id && 'active'}`}
+                  >
+                    {item.icon}
+                  </span>
+                  <span className="footer-title">{item.title}</span>
+                </div>
+              </a>
+            ))}
+          </div>
         </div>
       )}
       {loadingFooter && (
-        <div className={cx('footer')}>
-          <div className={cx('footer-container')}>
-            <div className={cx('footer-left')}>
+        <div className="footer">
+          <div className="footer-container">
+            <div className="footer-left">
               <Skeleton height={28} width="460px" />
             </div>
-            <div className={cx('footer-right')}>
+            <div className="footer-right">
               <Skeleton height={28} width="380px" />
             </div>
           </div>

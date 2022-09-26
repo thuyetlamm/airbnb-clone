@@ -48,6 +48,7 @@ function NavigationBar(props) {
     window.addEventListener('scroll', (e) => {
       if (document.documentElement.scrollTop === 0) {
         navBarRef.current.style.paddingTop = '30px';
+
         navBarRef.current.style.transition = 'all 0.1s linear';
         navBarWrapperRef.current.style.boxShadow = '';
       } else {
@@ -81,6 +82,13 @@ function NavigationBar(props) {
             category: !ischangeView,
           })}
           ref={navBarRef}
+          style={
+            !ischangeView && {
+              height: '80px',
+              marginTop: '-2px',
+              paddingTop: '0!important',
+            }
+          }
         >
           <Carousel
             breakPoints={breakPoints}
