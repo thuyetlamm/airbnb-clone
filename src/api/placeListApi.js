@@ -1,3 +1,4 @@
+import { router } from '~/routes';
 import axiosClient from './axiosClient';
 const qs = require('qs');
 
@@ -6,11 +7,11 @@ const placeListApi = {
     const query = qs.stringify(params, {
       encodeValuesOnly: true,
     });
-    const url = `/placelists/?${query}`;
+    const url = `${router.placelist}/?${query}`;
     return axiosClient.get(url);
   },
   get(id) {
-    const url = `/placelists/${id}`;
+    const url = `${router.placelist}/${id}`;
     return axiosClient.get(url);
   },
 };

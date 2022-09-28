@@ -22,6 +22,7 @@ import FooterDetail from './component/FooterDetail/FooterDetail';
 import Loading from '~/components/LoadingEffect/Loading';
 import Separate from './component/CalendarInDetailPage/Separate';
 import { useConvertDate } from '~/hooks';
+import { router } from '~/routes';
 const qs = require('qs');
 
 const convertDate = (date) => {
@@ -177,7 +178,19 @@ function DetailPlacePage() {
                   </span>
                 </div>
                 <div className="detail-header-button">
-                  <button type="button">Đặt phòng</button>
+                  <Link
+                    to={`${router.booking}/${JSON.parse(
+                      localStorage.getItem('place_id')
+                    )}`}
+                  >
+                    <button
+                      type="button"
+                      onClick={handleSubmit}
+                      form="form-booking"
+                    >
+                      Đặt phòng
+                    </button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -555,7 +568,7 @@ function DetailPlacePage() {
                     </form>
                     <div style={{ marginTop: '16px' }}>
                       <Link
-                        to={`/book/stays/${JSON.parse(
+                        to={`${router.booking}/${JSON.parse(
                           localStorage.getItem('place_id')
                         )}`}
                       >

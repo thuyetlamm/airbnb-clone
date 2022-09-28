@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import FilterPage from '~/components/FilterPageOnMobile/FilterPage';
 import { toggleShowFilterPage } from '~/common/globalSlice';
 import Loading from '~/components/LoadingEffect/Loading';
+import { router } from '~/routes';
 const MapBox = lazy(() => import('~/components/MapBox/MapBox'));
 const qs = require('qs');
 
@@ -87,7 +88,7 @@ function HomePage() {
         },
       };
       setFilters(newFilters);
-      navigation(`/placelists/?${qs.stringify(newFilters)}`);
+      navigation(`${router.placelist}/?${qs.stringify(newFilters)}`);
     },
     [filters]
   );
@@ -110,7 +111,7 @@ function HomePage() {
       },
     };
     setFilters(newFilters);
-    navigation(`/placelists/?${qs.stringify(newFilters)}`);
+    navigation(`${router.placelist}/?${qs.stringify(newFilters)}`);
   }, [
     filters,
     counter.countBig,
