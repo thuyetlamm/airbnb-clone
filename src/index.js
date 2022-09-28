@@ -19,7 +19,7 @@ root.render(
             <SnackbarProvider
               anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
               autoHideDuration={3000}
-              classes="notistack-container"
+              className="notistack-container"
             >
               <App />
             </SnackbarProvider>

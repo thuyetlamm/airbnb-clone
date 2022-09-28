@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './Footer.scss';
 import Skeleton from '@mui/material/Skeleton';
 import {
@@ -14,6 +14,7 @@ Footer.propTypes = {};
 function Footer(props) {
   const [loadingFooter, setloadingFooter] = useState(true);
   const [active, setActive] = useState(1);
+  const footerRef = useRef();
   useEffect(() => {
     const timeIds = setInterval(() => {
       setloadingFooter(false);
@@ -52,6 +53,7 @@ function Footer(props) {
   const handleClick = (id) => {
     setActive(id);
   };
+
   return (
     <div>
       {!loadingFooter && (

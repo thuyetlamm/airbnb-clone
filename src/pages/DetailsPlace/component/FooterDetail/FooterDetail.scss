@@ -58,11 +58,19 @@
   }
 }
 
-@media screen and (min-width: 748px) and (max-width: 1200px) {
+@media only screen and (max-width: 1200px) {
   .detail-footer-content {
     margin: 0;
   }
   .detail-footer-content-section {
     width: calc(50% - 24px) !important;
+  }
+}
+@media only screen and (max-width: 528px) {
+  .detail-footer-content {
+    margin: 0;
+  }
+  .detail-footer-content-section {
+    width: calc(100% - 24px) !important;
   }
 }

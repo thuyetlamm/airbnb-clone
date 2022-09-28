@@ -33,12 +33,11 @@ function PlacesItem(props) {
   return (
     <div className="place-wrapper">
       {placeList.data?.map((item) => (
-        <div
-          className="place-item"
-          key={item.id}
-          onClick={() => handleClickPlaceItem(item.id)}
-        >
-          <Link to={`/rooms/${item.id}`} target="_blank">
+        <Link to={`/rooms/${item.id}`} target="_blank" key={item.id}>
+          <div
+            className="place-item"
+            onClick={() => handleClickPlaceItem(item.id)}
+          >
             <Slider {...settings}>
               {item.attributes.images_urls.data.map((image) => (
                 <div className="place-item-img" key={image.id}>
@@ -60,8 +59,8 @@ function PlacesItem(props) {
                 <span>{item.attributes.ratingVote}</span>
               </div>
             </div>
-          </Link>
-        </div>
+          </div>
+        </Link>
       ))}
     </div>
   );

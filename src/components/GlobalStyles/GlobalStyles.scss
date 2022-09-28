@@ -296,7 +296,7 @@ body {
   transform: translateY(-68%);
 }
 .rec.rec-arrow-left {
-  left: -9px;
+  left: 6% !important;
 
   &:after {
     position: absolute;
@@ -312,7 +312,7 @@ body {
 }
 
 .rec.rec-arrow-right {
-  right: -9px;
+  right: 6% !important;
   &:before {
     position: absolute;
     content: '';
@@ -436,9 +436,6 @@ body {
   }
 }
 @media only screen and (max-width: 748px) {
-  .ant-picker-panel-container {
-    display: none !important;
-  }
   .Header_header-container__4tcDx {
     height: 80px !important;
   }
@@ -449,6 +446,10 @@ body {
     display: none !important;
   }
   .Header_header-options__5R5gE {
+    display: none !important;
+  }
+  .rec.rec-arrow-right,
+  .rec.rec-arrow-left {
     display: none !important;
   }
 }

@@ -263,6 +263,12 @@ function DetailPlacePage() {
                   />
                 </div>
               </div>
+              <div className="detail-main-images-mobile">
+                <img
+                  src={placeList.images_of_places?.data[0].attributes.imagesUrl}
+                  alt=""
+                />
+              </div>
               <div className="detail-main-info">
                 <div
                   className="detail-main-info-convenient"

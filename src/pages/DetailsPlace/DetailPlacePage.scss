@@ -267,6 +267,20 @@
     z-index: 20;
   }
 }
+.detail-main-images-mobile {
+  display: none;
+  width: 100%;
+  min-height: 340px;
+  border-radius: 12px;
+  margin: 24px 0;
+  img {
+    object-fit: cover;
+    width: 100%;
+    min-height: 340px;
+    background-repeat: no-repeat;
+    border-radius: 12px;
+  }
+}
 .detail-aircover {
   padding: 30px 0;
   border-bottom: 1px solid #ccc;
@@ -608,7 +622,7 @@
     padding: 0 80px !important;
   }
 }
-@media screen and (min-width: 748px) and (max-width: 1200px) {
+@media only screen and (max-width: 1200px) {
   .detail-page .Header_header__OKWO7 {
     margin: 0;
   }
@@ -617,5 +631,24 @@
   }
   .detail-header-container {
     margin: 0;
+  }
+}
+@media only screen and (min-width: 745px) and (max-width: 928px) {
+  .detail-main-booking-card {
+    margin-left: 22px !important;
+  }
+}
+@media only screen and (max-width: 744px) {
+  .detail-main-info-booking {
+    display: none !important;
+  }
+  .detail-main-info-convenient {
+    width: 100% !important;
+  }
+  .detail-main-images {
+    display: none !important;
+  }
+  .detail-main-images-mobile {
+    display: block !important;
   }
 }

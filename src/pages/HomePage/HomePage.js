@@ -1,5 +1,12 @@
 import classNames from 'classnames/bind';
-import React, { useCallback, useEffect, useState, lazy, Suspense } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useState,
+  lazy,
+  Suspense,
+  useRef,
+} from 'react';
 import Header from '~/components/Header/Header';
 import NavigationBar from '~/components/NavigationBar/NavigationBar';
 import PlacesList from '~/components/PlacesList/PlacesList';
@@ -11,7 +18,6 @@ import { Helmet } from 'react-helmet-async';
 import { useDispatch, useSelector } from 'react-redux';
 import FilterPage from '~/components/FilterPageOnMobile/FilterPage';
 import { toggleShowFilterPage } from '~/common/globalSlice';
-import { totalCount } from '~/components/features/Counter/counterSlice';
 import Loading from '~/components/LoadingEffect/Loading';
 const MapBox = lazy(() => import('~/components/MapBox/MapBox'));
 const qs = require('qs');
@@ -30,6 +36,7 @@ function HomePage() {
   const globalState = useSelector((state) => state.globalState);
   const navigation = useNavigate();
   const dispatch = useDispatch();
+  const listInnerRef = useRef();
   const [filters, setFilters] = useState({
     populate: '*',
     pagination: {
@@ -122,7 +129,7 @@ function HomePage() {
       </Helmet>
       <>
         <Header handleClickBtnSearch={handleClickBtnSearch} />
-        <div className={cx('content-container')}>
+        <div className={cx('content-container')} ref={listInnerRef}>
           <NavigationBar
             isChangeView={isChangeView}
             onChange={handleChangeTabCategory}

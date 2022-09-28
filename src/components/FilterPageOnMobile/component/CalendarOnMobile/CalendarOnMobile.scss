@@ -80,7 +80,7 @@
         .ant-picker-panel-container {
           position: absolute;
           left: 0 !important;
-          transform: translateX(0) translateY(-42%);
+          transform: translateX(0) translateY(-42%) !important;
         }
       }
     }
@@ -97,7 +97,7 @@
           position: absolute;
           left: 0 !important;
           max-height: 400px !important;
-          transform: translateX(0) translateY(-32%);
+          transform: translateX(0) translateY(-32%) !important;
           & > div:first-child {
             .ant-picker-panel {
               width: 100% !important;

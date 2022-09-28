@@ -7,6 +7,8 @@ import categoryApi from '~/api/categoryApi';
 import Skeleton from '@mui/material/Skeleton';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleLoading } from './categorySlice';
+import CustomNextArrows from './CustomNextArrows';
+import CustomPrevArrows from './CustomPrevArrows';
 const cx = classNames.bind(styles);
 
 function NavigationBar(props) {
@@ -93,7 +95,7 @@ function NavigationBar(props) {
           <Carousel
             breakPoints={breakPoints}
             itemPadding={[0, 18]}
-            enableSwipe={false}
+            enableSwipe={true}
             showEmptySlots={false}
             draggable
           >
