@@ -1,9 +1,19 @@
 import React from 'react';
-import { DatePicker } from 'antd';
-
-import './Calendar.scss';
+import PropTypes from 'prop-types';
 import 'moment/locale/vi';
 import locale from 'antd/es/date-picker/locale/vi_VN';
+
+import { DatePicker } from 'antd';
+import './Calendar.scss';
+
+CalendarComp.propTypes = {
+  isShowCalendar: PropTypes.bool.isRequired,
+  handleOpenCalendar: PropTypes.func,
+  handleOnBlurCalendar: PropTypes.func,
+  handleDateChange: PropTypes.func,
+  handleCalendarChange: PropTypes.func,
+};
+
 function CalendarComp({
   isShowCalendar,
   handleOpenCalendar,

@@ -1,9 +1,15 @@
 import React from 'react';
-import RegisterForm from '../RegisterForm/RegisterForm';
+import PropTypes from 'prop-types';
+import { useSnackbar } from 'notistack';
 import { useDispatch } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
+
+import RegisterForm from '../RegisterForm/RegisterForm';
 import { register } from '../../userSlice';
-import { useSnackbar } from 'notistack';
+
+Register.propTypes = {
+  onCloseDialog: PropTypes.func,
+};
 function Register({ onCloseDialog = null }) {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();

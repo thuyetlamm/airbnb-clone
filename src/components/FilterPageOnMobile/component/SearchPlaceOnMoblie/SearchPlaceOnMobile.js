@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import './SearchPlaceOnMobile.scss';
-import useDebouned from '~/hooks/useDebouned';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+
 import { useDispatch } from 'react-redux';
 import { setFiltersPlace } from '~/common/globalSlice';
+import useDebouned from '~/hooks/useDebouned';
+import './SearchPlaceOnMobile.scss';
 
 function SearchPlaceOnMobile(props) {
   const [value, setValue] = useState('');

@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import locale from 'antd/es/date-picker/locale/vi_VN';
+import 'moment/locale/vi';
+
 import { DatePicker } from 'antd';
 import './CalendarDetail.scss';
-import 'moment/locale/vi';
-import locale from 'antd/es/date-picker/locale/vi_VN';
 
-import Separate from './Separate';
 CalendarDetail.propTypes = {
   handleDateChange: PropTypes.func,
 };

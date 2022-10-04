@@ -1,18 +1,20 @@
 /* eslint-disable import/no-webpack-loader-syntax */
 import React, { useEffect, useState } from 'react';
 import Map, { Marker, Popup } from 'react-map-gl';
+import Slider from 'react-slick';
+import { Link } from 'react-router-dom';
+import mapboxgl from 'mapbox-gl/dist/mapbox-gl-csp';
+
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { Link } from 'react-router-dom';
-import Slider from 'react-slick';
 import './MapBox.scss';
-import mapboxgl from 'mapbox-gl/dist/mapbox-gl-csp';
 
 import CustomNextArrows from '../NavigationBar/CustomNextArrows';
 import CustomPrevArrows from '../NavigationBar/CustomPrevArrows';
 // eslint-disable-next-line import/no-webpack-loader-syntax
 mapboxgl.workerClass =
   require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
+
 function MapBox({ placeList, onChange }) {
   const [isShowPopup, setShowPopup] = useState(0);
 

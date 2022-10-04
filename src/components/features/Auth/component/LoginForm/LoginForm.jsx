@@ -1,13 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
+
 import InputField from '~/form-controls/InputField';
 import PasswordField from '~/form-controls/PasswordField';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 import { Avatar, Button, LinearProgress, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import './LoginForm.scss';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',

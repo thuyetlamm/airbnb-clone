@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import './Footer.scss';
 import Skeleton from '@mui/material/Skeleton';
+import './Footer.scss';
 import {
   AirPlaneIcon,
   ChatBoxIcon,
@@ -9,12 +9,9 @@ import {
   SearchIcon,
 } from '~/assets/IconImages/Icon';
 
-Footer.propTypes = {};
-
 function Footer(props) {
   const [loadingFooter, setloadingFooter] = useState(true);
   const [active, setActive] = useState(1);
-  const footerRef = useRef();
   useEffect(() => {
     const timeIds = setInterval(() => {
       setloadingFooter(false);
@@ -86,7 +83,7 @@ function Footer(props) {
               </button>
             </div>
           </div>
-          <div class="footer-mobile">
+          <div className="footer-mobile">
             {arrFooter.map((item) => (
               <a
                 href="#"

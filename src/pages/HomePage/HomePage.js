@@ -1,4 +1,7 @@
 import classNames from 'classnames/bind';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import React, {
   useCallback,
   useEffect,
@@ -7,29 +10,26 @@ import React, {
   Suspense,
   useRef,
 } from 'react';
+
 import Header from '~/components/Header/Header';
 import NavigationBar from '~/components/NavigationBar/NavigationBar';
 import PlacesList from '~/components/PlacesList/PlacesList';
 import styles from './HomePage.module.scss';
 import Footer from '~/components/Footer/Footer';
 import placeListApi from '~/api/placeListApi';
-import { useNavigate } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
-import { useDispatch, useSelector } from 'react-redux';
 import FilterPage from '~/components/FilterPageOnMobile/FilterPage';
 import { toggleShowFilterPage } from '~/common/globalSlice';
 import Loading from '~/components/LoadingEffect/Loading';
 import { router } from '~/routes';
+
 const MapBox = lazy(() => import('~/components/MapBox/MapBox'));
 const qs = require('qs');
-
 const cx = classNames.bind(styles);
-HomePage.propTypes = {};
 
 function HomePage() {
   const [isChangeView, setChangeView] = useState(true);
   const [loadingPlaceList, setLoadingPlaceList] = useState(true);
-  const [placeList, setPlaceList] = useState([]);
+  const [placeList, setPlaceList] = useState({});
   const counter = useSelector((state) => state.counter);
   const isShowFilterPage = useSelector(
     (state) => state.globalState.isShowFilterPage

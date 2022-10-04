@@ -2,8 +2,6 @@ import React from 'react';
 import './PlacesItem.scss';
 import Skeleton from '@mui/material/Skeleton';
 
-PlacesItem.propTypes = {};
-
 function PlacesItem({ length }) {
   return (
     <div className="place-wrapper">

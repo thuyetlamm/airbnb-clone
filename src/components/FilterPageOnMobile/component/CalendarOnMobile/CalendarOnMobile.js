@@ -1,10 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { DatePicker } from 'antd';
-import './CalendarOnMobile.scss';
 import 'moment/locale/vi';
 import locale from 'antd/es/date-picker/locale/vi_VN';
+import './CalendarOnMobile.scss';
 
+CalendarOnMobile.propTypes = {
+  placement: PropTypes.string,
+  separator: PropTypes.string,
+  openCalendar: PropTypes.bool,
+  handleDateChange: PropTypes.func,
+  handleOpenCalendar: PropTypes.func,
+  handleCloseCalendar: PropTypes.func,
+};
 function CalendarOnMobile({
   placement,
   separator,

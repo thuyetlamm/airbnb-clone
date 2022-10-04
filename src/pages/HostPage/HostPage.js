@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
+
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import CustomNextArrows from '~/components/NavigationBar/CustomNextArrows';
 import CustomPrevArrows from '~/components/NavigationBar/CustomPrevArrows';
 import './HostPage.scss';
-import { Helmet } from 'react-helmet-async';
 HostPage.propTypes = {};
 
 function HostPage(props) {
@@ -33,11 +34,15 @@ function HostPage(props) {
   useEffect(() => {
     window.onscroll = () => {
       if (document.documentElement.scrollTop > 646) {
+        if (!headerMainRef) return;
+
         headerMainRef.current.style.display = 'block';
         headerMainRef.current.style.opacity = 1;
         headerMainRef.current.style.transition = 'all 0.2s linear';
       }
       if (document.documentElement.scrollTop < 30) {
+        if (!headerMainRef) return;
+
         headerMainRef.current.style.display = 'none';
         headerMainRef.current.style.opacity = 0;
         headerMainRef.current.style.transition = 'all 0.2s linear';
