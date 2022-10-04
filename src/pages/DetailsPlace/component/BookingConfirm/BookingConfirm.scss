@@ -265,9 +265,14 @@
   }
 }
 .booking-main-author-form {
+  margin: 24px 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  min-height: 600px;
+}
+.booking-main-author-form .MuiTypography-h4 {
+  text-align: center !important;
 }
 .booking-main-pay {
   width: 100%;

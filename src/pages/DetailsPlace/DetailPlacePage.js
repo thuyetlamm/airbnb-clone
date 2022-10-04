@@ -1,13 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+
 import { addToItem, toggleLoading } from './DetailPlaceSlice';
 import roomsApi from '~/api/roomsApi';
 import Header from '~/components/Header/Header';
 import './DetailPlacePage.scss';
-import moment from 'moment';
-
+import CalendarDetail from './component/CalendarInDetailPage/CalendarDetail';
+import FooterDetail from './component/FooterDetail/FooterDetail';
+import Loading from '~/components/LoadingEffect/Loading';
+import Separate from './component/CalendarInDetailPage/Separate';
+import { router } from '~/routes';
 import {
   increateBig,
   decreateBig,
@@ -17,12 +22,7 @@ import {
   decreateSmall,
   totalCount,
 } from '~/components/features/Counter/counterSlice';
-import CalendarDetail from './component/CalendarInDetailPage/CalendarDetail';
-import FooterDetail from './component/FooterDetail/FooterDetail';
-import Loading from '~/components/LoadingEffect/Loading';
-import Separate from './component/CalendarInDetailPage/Separate';
-import { useConvertDate } from '~/hooks';
-import { router } from '~/routes';
+
 const qs = require('qs');
 
 const convertDate = (date) => {
@@ -46,7 +46,6 @@ function DetailPlacePage() {
   const [openCalendar, setOpenCalendar] = useState(false);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-  const [start, end] = useConvertDate(startDate, endDate);
 
   const headerRef = useRef();
   const bookingCardRef = useRef();
@@ -66,17 +65,21 @@ function DetailPlacePage() {
   });
   useEffect(() => {
     window.addEventListener('scroll', () => {
-      if (document.documentElement.scrollTop > 488) {
-        headerRef && (headerRef.current.style.display = 'block');
-        bookingCardRef && (bookingCardRef.current.style.top = '120px');
-      } else {
-        headerRef && (headerRef.current.style.display = 'none');
-        bookingCardRef && (bookingCardRef.current.style.top = 'var(--gap-80)');
+      if (headerRef.current && bookingCardRef.current) {
+        if (document.documentElement.scrollTop > 488) {
+          headerRef.current.style.display = 'block';
+          bookingCardRef.current.style.top = '120px';
+        } else {
+          headerRef.current.style.display = 'none';
+          bookingCardRef.current.style.top = 'var(--gap-80)';
+        }
       }
-      if (document.documentElement.scrollTop > 930) {
-        headerBooking && (headerBooking.current.style.display = 'flex');
-      } else {
-        headerBooking && (headerBooking.current.style.display = 'none');
+      if (headerBooking.current) {
+        if (document.documentElement.scrollTop > 930) {
+          headerBooking.current.style.display = 'flex';
+        } else {
+          headerBooking.current.style.display = 'none';
+        }
       }
     });
   }, []);

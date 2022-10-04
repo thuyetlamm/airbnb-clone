@@ -166,8 +166,8 @@
         vertical-align: bottom;
       }
       &:hover {
-        background-color: red;
-        opacity: 0.8;
+        filter: brightness(60%);
+        -webkit-filter: brightness(60%);
       }
     }
     &-item:nth-child(1) {

@@ -1,7 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import './CounterOnMobile.scss';
 import { useDispatch, useSelector } from 'react-redux';
+
+import './CounterOnMobile.scss';
 import {
   decreateAnimal,
   decreateBig,
@@ -12,7 +12,6 @@ import {
   increateMid,
   increateSmall,
 } from '~/components/features/Counter/counterSlice';
-CounterOnMobile.propTypes = {};
 
 function CounterOnMobile(props) {
   const count = useSelector((state) => state.counter);

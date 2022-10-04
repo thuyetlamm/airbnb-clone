@@ -1,10 +1,12 @@
-import classNames from 'classnames/bind';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import styles from './Header.module.scss';
+
 import CalendarComp from '~/components/Calendar/Calendar';
 import DefaultHeader from './components/DefaultHeader/DefaultHeader';
 import DetailHeader from './components/DetailHeader/DetailHeader';
-import styles from './Header.module.scss';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
@@ -15,22 +17,19 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import Register from '../features/Auth/component/Register/Register';
-import Login from '../features/Auth/component/Login/Login';
-import { useDispatch, useSelector } from 'react-redux';
-import { logOut } from '../features/Auth/userSlice';
 import { Badge, IconButton } from '@material-ui/core';
+
+import Login from '../features/Auth/component/Login/Login';
+import { logOut } from '../features/Auth/userSlice';
 import { ExitToAppOutlined, ShoppingCart } from '@material-ui/icons';
 import StorageKeys from '~/constants/storage-keys';
+import Register from '../features/Auth/component/Register/Register';
 import {
   setActiveId,
   toggleShowCalendar,
   toggleShowFilterPage,
 } from '~/common/globalSlice';
-import Tippy from '@tippyjs/react/headless';
-import 'tippy.js/dist/tippy.css';
-import { Wrapper as WrapperFilterPage } from '~/components/Popper';
-import FilterPage from '../FilterPageOnMobile/FilterPage';
+
 const cx = classNames.bind(styles);
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -58,6 +57,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '20px',
   },
 }));
+
 function Header({ handleClickBtnSearch }) {
   const dispatch = useDispatch();
   const [showDetailHeader, setShowDetailHeader] = useState({});

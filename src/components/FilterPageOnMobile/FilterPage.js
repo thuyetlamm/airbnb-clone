@@ -1,3 +1,7 @@
+import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+
 import Accordion from '@material-ui/core/Accordion';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
@@ -6,19 +10,18 @@ import Dialog from '@material-ui/core/Dialog';
 import IconButton from '@material-ui/core/IconButton';
 import Slide from '@material-ui/core/Slide';
 import SearchIcon from '@material-ui/icons/Search';
-import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
+import { makeStyles } from '@material-ui/core/styles';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { toggleShowFilterPage } from '~/common/globalSlice';
 
+import { toggleShowFilterPage } from '~/common/globalSlice';
 import CalendarOnMobile from './component/CalendarOnMobile/CalendarOnMobile';
 import CounterOnMobile from './component/CounterOnMobile/CounterOnMobile';
 import SearchPlaceOnMobile from './component/SearchPlaceOnMoblie/SearchPlaceOnMobile';
 import './FilterPage.scss';
+
 const useStyles = makeStyles((theme) => ({
   appBar: {
     position: 'relative',
@@ -56,6 +59,10 @@ const useStyles = makeStyles((theme) => ({
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
+FilterPage.propTypes = {
+  handleClickBtnSearch: PropTypes.func,
+};
+
 function FilterPage({ handleClickBtnSearch }) {
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -72,7 +79,7 @@ function FilterPage({ handleClickBtnSearch }) {
   const handleClose = () => {
     dispatch(toggleShowFilterPage(false));
   };
-
+  console.log('render');
   return (
     <div>
       <Dialog

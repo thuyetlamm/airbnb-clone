@@ -1,14 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Carousel from 'react-elastic-carousel';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './NavigationBar.module.scss';
 import classNames from 'classnames/bind';
+
 import Item from 'antd/lib/list/Item';
 import categoryApi from '~/api/categoryApi';
 import Skeleton from '@mui/material/Skeleton';
-import { useDispatch, useSelector } from 'react-redux';
 import { toggleLoading } from './categorySlice';
-import CustomNextArrows from './CustomNextArrows';
-import CustomPrevArrows from './CustomPrevArrows';
+
 const cx = classNames.bind(styles);
 
 function NavigationBar(props) {
@@ -47,17 +47,18 @@ function NavigationBar(props) {
   }, []);
 
   useEffect(() => {
-    window.addEventListener('scroll', (e) => {
-      if (document.documentElement.scrollTop === 0) {
-        navBarRef.current.style.paddingTop = '30px';
-
-        navBarRef.current.style.transition = 'all 0.1s linear';
-        navBarWrapperRef.current.style.boxShadow = '';
-      } else {
-        navBarRef.current.style.paddingTop = '0';
-        navBarRef.current.style.transition = 'all 0.1s linear';
-        navBarWrapperRef.current.style.boxShadow =
-          '0 1em 1em -1em rgba(0 0 0 / 15%)';
+    window.addEventListener('scroll', () => {
+      if (navBarRef.current && navBarWrapperRef.current) {
+        if (document.documentElement.scrollTop === 0) {
+          navBarRef.current.style.paddingTop = '30px';
+          navBarRef.current.style.transition = 'all 0.1s linear';
+          navBarWrapperRef.current.style.boxShadow = '';
+        } else {
+          navBarRef.current.style.paddingTop = '0';
+          navBarRef.current.style.transition = 'all 0.1s linear';
+          navBarWrapperRef.current.style.boxShadow =
+            '0 1em 1em -1em rgba(0 0 0 / 15%)';
+        }
       }
       setDistance(document.documentElement.scrollTop);
     });

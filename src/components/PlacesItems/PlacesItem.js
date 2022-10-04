@@ -1,15 +1,21 @@
 import React from 'react';
 import Slider from 'react-slick';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './PlacesItem.scss';
-import { Link } from 'react-router-dom';
 import CustomNextArrows from '../NavigationBar/CustomNextArrows';
 import CustomPrevArrows from '../NavigationBar/CustomPrevArrows';
-PlacesItem.propTypes = {};
+
+PlacesItem.propTypes = {
+  placeList: PropTypes.object.isRequired,
+  onChange: PropTypes.func,
+};
 
 function PlacesItem(props) {
-  const { placeList = [], onChange } = props;
+  const { placeList, onChange } = props;
 
   const settings = {
     dots: true,
